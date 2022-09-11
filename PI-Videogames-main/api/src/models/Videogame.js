@@ -7,7 +7,8 @@ module.exports = (sequelize) => {
     'videogame',
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
       },
@@ -29,6 +30,16 @@ module.exports = (sequelize) => {
       platforms: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
+      },
+      image: {
+        type: DataTypes.STRING,
+      },
+      // OPTIONAL: Add whether users created the game or not (DB or API):
+      //TODO: VER DE AGREGAR
+      createdByUser: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
     },
     {
