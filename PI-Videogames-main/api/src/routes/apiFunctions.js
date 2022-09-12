@@ -76,17 +76,15 @@ const getGenresApi = async () => {
     `https://api.rawg.io/api/genres?key=${YOUR_API_KEY}`
   );
 
-  const videoGamesGenres = apiResponse.data.results.map((genre) => {
-    return genre.name;
-  });
-  videoGamesGenres.map((genre) => {
-    Genre.findOrCreate({
+  const videoGamesGenres = apiResponse.data.results;
+
+  videoGamesGenres.forEach(async (genre) => {
+    await Genre.findOrCreate({
       where: {
-        name: genre,
+        name: genre.name,
       },
     });
   });
-  return videoGamesGenres;
 };
 
 module.exports = {

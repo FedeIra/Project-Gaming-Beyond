@@ -18,7 +18,7 @@ const getVideogamesDb = async () => {
 const getVideogamesByIdDb = async (id) => {
   const videogame = await Videogame.findByPk(id, {
     include: {
-      model: Genre, // to include genre.name from model genre
+      model: Genre,
       attributes: ['name'],
       through: {
         attributes: [],
@@ -27,10 +27,6 @@ const getVideogamesByIdDb = async (id) => {
   });
   return videogame;
 };
-
-// Get videogames from db by name by query:
-
-// Get genres from db:
 
 module.exports = {
   getVideogamesDb,

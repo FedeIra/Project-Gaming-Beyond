@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const router = Router();
+const { Videogame, Genre } = require('../db.js');
 
 const {
   getVideogamesApi,
@@ -9,15 +11,11 @@ const {
 
 const { getVideogamesDb, getVideogamesByIdDb } = require('./dbFunctions');
 
-const { Videogame, Genre } = require('../db.js');
-
-const router = Router();
-
 // GET GENRES FROM DB (IF NO GENRES, GET THEM FROM API AND SAVE IT TO DB):
 router.get('/videogames/genres', async (req, res) => {
   const genres = await Genre.findAll();
   if (genres.length) {
-    return res.json(genres.map((genre) => genre.name));
+    return res.json(genres);
   } else {
     try {
       const genresApi = await getGenresApi();
@@ -55,11 +53,17 @@ router.get('/videogames', async (req, res) => {
 
   if (search) {
     try {
-      const videogames = await getVideogamesByNameApi(search);
-      console.log('videogames:', videogames);
+      const videogamesDB = await getVideogamesDb();
+      const filterVideogamesDB = videogamesDB.filter((videogame) =>
+        videogame.name.toLowerCase().includes(search.toLowerCase())
+      );
+      const videogamesAPI = await getVideogamesByNameApi(search);
+      const videogames = [...videogamesAPI, ...filterVideogamesDB];
       res.json(videogames);
     } catch (error) {
-      res.status(404).send('No videogames found by than name');
+      res
+        .status(404)
+        .send({ message: `The videogame ${search} does not exist.` });
     }
   } else {
     try {
@@ -87,7 +91,7 @@ router.post('/videogames', async (req, res) => {
   } = req.body;
 
   try {
-    const newVideogame = await Videogame.create({
+    let newVideogame = await Videogame.create({
       name,
       description,
       released,
@@ -96,12 +100,15 @@ router.post('/videogames', async (req, res) => {
       image,
       createdByUser,
     });
-    const genderDb = await Genre.findAll({
+
+    let genreDB = await Genre.findAll({
       where: {
         name: genre,
       },
     });
-    newVideogame.addGenres(genderDb);
+
+    console.log('genreDB: ', genreDB);
+    newVideogame.addGenre(genreDB);
 
     res.json(newVideogame);
   } catch (error) {
