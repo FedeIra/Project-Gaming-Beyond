@@ -1,5 +1,5 @@
 const { Router } = require('express');
-// Import functions from apiFunctions:
+
 const {
   getVideogamesApi,
   getVideogamesByNameApi,
@@ -7,15 +7,11 @@ const {
   getGenresApi,
 } = require('./apiFunctions');
 
+const { getVideogamesDb, getVideogamesByIdDb } = require('./dbFunctions');
+
 const { Videogame, Genre } = require('../db.js');
 
-// Importar todos los routers;
-
-// Ejemplo: const authRouter = require('./auth.js');
-
 const router = Router();
-
-// Configurar los routers
 
 // GET GENRES FROM DB (IF NO GENRES, GET THEM FROM API AND SAVE IT TO DB):
 router.get('/videogames/genres', async (req, res) => {
@@ -36,11 +32,20 @@ router.get('/videogames/genres', async (req, res) => {
 router.get('/videogames/:id', async (req, res) => {
   const { id } = req.params;
 
-  try {
-    const videogame = await getVideogamesByIdApi(id);
-    res.json(videogame);
-  } catch (error) {
-    res.status(404).send('error');
+  if (!Number(id)) {
+    try {
+      const videogame = await getVideogamesByIdDb(id);
+      return res.json(videogame);
+    } catch (error) {
+      return res.status(404).send(error);
+    }
+  } else {
+    try {
+      const videogame = await getVideogamesByIdApi(id);
+      return res.json(videogame);
+    } catch (error) {
+      return res.status(404).send(error);
+    }
   }
 });
 
@@ -58,7 +63,9 @@ router.get('/videogames', async (req, res) => {
     }
   } else {
     try {
-      const videogames = await getVideogamesApi();
+      const videogamesBS = await getVideogamesDb();
+      const videogamesAPI = await getVideogamesApi();
+      const videogames = [...videogamesAPI, ...videogamesBS];
       res.json(videogames);
     } catch (error) {
       res.status(404).send('No videogames found');
@@ -96,12 +103,10 @@ router.post('/videogames', async (req, res) => {
     });
     newVideogame.addGenres(genderDb);
 
-    res.json(genderDb);
+    res.json(newVideogame);
   } catch (error) {
     res.status(404).send('incorrect data');
   }
 });
-
-// Ejemplo: router.use('/auth', authRouter);
 
 module.exports = router;
