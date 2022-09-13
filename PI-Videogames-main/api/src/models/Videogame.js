@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
+
 module.exports = (sequelize) => {
-  // defino el modelo
   sequelize.define(
     'videogame',
     {
@@ -23,13 +21,20 @@ module.exports = (sequelize) => {
       },
       released: {
         type: DataTypes.DATEONLY,
+        get() {
+          return this.getDataValue('released').replace(/-/g, '/');
+        },
       },
       rating: {
         type: DataTypes.FLOAT,
       },
       platforms: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+        type: DataTypes.STRING,
         allowNull: false,
+        // turn platforms array to string:
+        get() {
+          return this.getDataValue('platforms').join(', ');
+        },
       },
       image: {
         type: DataTypes.STRING,

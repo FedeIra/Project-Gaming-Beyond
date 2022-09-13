@@ -3,26 +3,24 @@
 require(`dotenv`).config();
 const axios = require('axios');
 const { YOUR_API_KEY } = process.env;
-const { Genre, Videogame } = require('../db');
+const { Genre } = require('../db');
 
 // Get all videogames from API:
 const getVideogamesApi = async () => {
+  let videoGames = [];
   const apiResponse = await axios.get(
-    `https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page_size=100`
+    `https://api.rawg.io/api/games?key=${YOUR_API_KEY}`
   );
-
-  const videoGames = apiResponse.data.results.map((game) => {
-    return {
-      id: game.id,
-      name: game.name,
-      description: game.description,
-      released: game.released,
-      rating: game.rating,
-      platforms: game.platforms.map((platform) => platform.platform.name),
-      image: game.background_image,
-      genre: game.genres.map((element) => element.name),
-    };
-  });
+  for (let i = 0; videoGames.length < 100; i++) {
+    games = apiResponse.data.results.map((game) => {
+      return {
+        image: game.background_image,
+        name: game.name,
+        genre: game.genres.map((element) => element.name).join(', '),
+      };
+    });
+    videoGames = [...videoGames, ...games];
+  }
   return videoGames;
 };
 
@@ -35,14 +33,15 @@ const getVideogamesByNameApi = async (name) => {
   const videoGames = apiResponse.data.results
     .map((game) => {
       return {
-        id: game.id,
-        name: game.name,
-        description: game.description,
-        released: game.released,
-        rating: game.rating,
-        platforms: game.platforms.map((platform) => platform.platform.name),
         image: game.background_image,
-        genre: game.genres.map((element) => element.name),
+        name: game.name,
+        genre: game.genres.map((element) => element.name).join(', '),
+        description: game.description, //First 100 games do not have description. I have requested it anyway.
+        released: game.released.replace(/-/g, '/'),
+        rating: game.rating,
+        platforms: game.platforms
+          .map((platform) => platform.platform.name)
+          .join(', '),
       };
     })
     .slice(0, 15);
@@ -56,16 +55,15 @@ const getVideogamesByIdApi = async (id) => {
   );
 
   const videoGame = {
-    id: apiResponse.data.id,
-    name: apiResponse.data.name,
-    description: apiResponse.data.description,
-    released: apiResponse.data.released,
-    rating: apiResponse.data.rating,
-    platforms: apiResponse.data.platforms.map(
-      (element) => element.platform.name
-    ),
     image: apiResponse.data.background_image,
-    genre: apiResponse.data.genres.map((element) => element.name),
+    name: apiResponse.data.name,
+    genre: apiResponse.data.genres.map((element) => element.name).join(', '),
+    description: apiResponse.data.description,
+    released: apiResponse.data.released.replace(/-/g, '/'),
+    rating: apiResponse.data.rating,
+    platforms: apiResponse.data.platforms
+      .map((element) => element.platform.name)
+      .join(`, `),
   };
   return videoGame;
 };

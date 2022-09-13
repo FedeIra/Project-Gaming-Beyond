@@ -9,13 +9,17 @@ const {
   getGenresApi,
 } = require('./apiFunctions');
 
-const { getVideogamesDb, getVideogamesByIdDb } = require('./dbFunctions');
+const {
+  getVideogamesDb,
+  getVideogamesByIdDb,
+  getVideogamesByNameDb,
+} = require('./dbFunctions');
 
 // GET GENRES FROM DB (IF NO GENRES, GET THEM FROM API AND SAVE IT TO DB):
 router.get('/videogames/genres', async (req, res) => {
   const genres = await Genre.findAll();
   if (genres.length) {
-    return res.json(genres);
+    return res.json(genres.map((g) => g.name));
   } else {
     try {
       const genresApi = await getGenresApi();
@@ -53,12 +57,11 @@ router.get('/videogames', async (req, res) => {
 
   if (search) {
     try {
-      const videogamesDB = await getVideogamesDb();
-      const filterVideogamesDB = videogamesDB.filter((videogame) =>
-        videogame.name.toLowerCase().includes(search.toLowerCase())
-      );
+      const videogamesDB = await getVideogamesByNameDb(search);
+
+      console.log('DB', videogamesDB);
       const videogamesAPI = await getVideogamesByNameApi(search);
-      const videogames = [...videogamesAPI, ...filterVideogamesDB];
+      const videogames = [...videogamesAPI, ...videogamesDB];
       res.json(videogames);
     } catch (error) {
       res
@@ -69,6 +72,7 @@ router.get('/videogames', async (req, res) => {
     try {
       const videogamesBS = await getVideogamesDb();
       const videogamesAPI = await getVideogamesApi();
+
       const videogames = [...videogamesAPI, ...videogamesBS];
       res.json(videogames);
     } catch (error) {
@@ -107,8 +111,7 @@ router.post('/videogames', async (req, res) => {
       },
     });
 
-    console.log('genreDB: ', genreDB);
-    newVideogame.addGenre(genreDB);
+    newVideogame.addGenres(genreDB);
 
     res.json(newVideogame);
   } catch (error) {
