@@ -7,21 +7,28 @@ const { Genre } = require('../db');
 
 // Get all videogames from API:
 const getVideogamesApi = async () => {
-  let videoGames = [];
-  const apiResponse = await axios.get(
-    `https://api.rawg.io/api/games?key=${YOUR_API_KEY}`
-  );
-  for (let i = 0; videoGames.length < 100; i++) {
-    games = apiResponse.data.results.map((game) => {
-      return {
-        image: game.background_image,
-        name: game.name,
-        genre: game.genres.map((element) => element.name).join(', '),
-      };
-    });
-    videoGames = [...videoGames, ...games];
+  let videoGames = [],
+    page = 1;
+  const totalPages = 2; // total of 120 games (20 games per page). For spare space in pagination, so i have room to create more games in the future. //! PONER TOTALPAGES EN 7!!!!!!!!!!!!
+
+  while (page < totalPages) {
+    const apiResponse = await axios.get(
+      `https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=${page}`
+    );
+    videoGames = videoGames.concat(apiResponse.data.results);
+    page++;
   }
-  return videoGames;
+
+  const videoGamesApi = videoGames.map((game) => {
+    return {
+      id: game.id,
+      image: game.background_image,
+      name: game.name,
+      genre: game.genres.map((element) => element.name).join(', '),
+      rating: game.rating,
+    };
+  });
+  return videoGamesApi;
 };
 
 // Get videogames from API by name by query:
@@ -58,7 +65,7 @@ const getVideogamesByIdApi = async (id) => {
     image: apiResponse.data.background_image,
     name: apiResponse.data.name,
     genre: apiResponse.data.genres.map((element) => element.name).join(', '),
-    description: apiResponse.data.description,
+    description: apiResponse.data.description.replace(/<[^>]*>/g, ''),
     released: apiResponse.data.released.replace(/-/g, '/'),
     rating: apiResponse.data.rating,
     platforms: apiResponse.data.platforms

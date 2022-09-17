@@ -31,19 +31,15 @@ module.exports = (sequelize) => {
       platforms: {
         type: DataTypes.STRING,
         allowNull: false,
-        // turn platforms array to string:
-        get() {
-          return this.getDataValue('platforms').join(', ');
-        },
       },
       image: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
+        defaultValue:
+          'https://leviathyn.com/wp-content/uploads/2014/12/game-of-the-year-1050x590.jpg',
       },
-      // OPTIONAL: Add whether users created the game or not (DB or API):
-      //TODO: VER DE AGREGAR
+      // OPTIONAL: for filter by created.
       createdByUser: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
         defaultValue: true,
       },
     },

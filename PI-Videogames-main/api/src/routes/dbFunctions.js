@@ -5,14 +5,7 @@ const { Op } = require('sequelize');
 const getVideogamesDb = async () => {
   const videogames = await Videogame.findAll({
     attributes: {
-      exclude: [
-        'id',
-        'createdByUser',
-        'released',
-        'platforms',
-        'description',
-        'rating',
-      ],
+      exclude: ['released', 'platforms', 'description'],
     },
     include: {
       model: Genre, // to include genre.name from model genre
@@ -24,9 +17,12 @@ const getVideogamesDb = async () => {
   });
   const finalVideogames = videogames.map((game) => {
     return {
+      id: game.id,
       image: game.image,
       name: game.name,
-      genres: game.genres.map((g) => g.name).join(', '),
+      genre: game.genres.map((g) => g.name).join(', '),
+      createdByUser: game.createdByUser,
+      rating: game.rating,
     };
   });
   return finalVideogames;
@@ -51,7 +47,7 @@ const getVideogamesByIdDb = async (id) => {
   videogame = {
     image: videogame.image,
     name: videogame.name,
-    genres: videogame.genres.map((g) => g.name).join(', '),
+    genre: videogame.genres.map((g) => g.name).join(', '),
     description: videogame.description,
     released: videogame.released,
     rating: videogame.rating,
@@ -84,7 +80,7 @@ const getVideogamesByNameDb = async (name) => {
     return {
       image: game.image,
       name: game.name,
-      genres: game.genres.map((g) => g.name).join(', '),
+      genre: game.genres.map((g) => g.name).join(', '),
       description: game.description,
       released: game.released,
       rating: game.rating,

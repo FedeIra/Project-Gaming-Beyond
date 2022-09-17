@@ -59,9 +59,13 @@ router.get('/videogames', async (req, res) => {
     try {
       const videogamesDB = await getVideogamesByNameDb(search);
 
-      console.log('DB', videogamesDB);
-      const videogamesAPI = await getVideogamesByNameApi(search);
-      const videogames = [...videogamesAPI, ...videogamesDB];
+      let videogamesAPI = await getVideogamesByNameApi(search);
+
+      if (videogamesDB.length + videogamesAPI.length > 15) {
+        videogamesAPI = videogamesAPI.slice(0, 15 - videogamesDB.length); // If there are more than 15 videogames, slice API results.
+      }
+
+      const videogames = [...videogamesDB, ...videogamesAPI];
       res.json(videogames);
     } catch (error) {
       res
@@ -90,8 +94,8 @@ router.post('/videogames', async (req, res) => {
     rating,
     platforms,
     image,
-    genre, // ! REPASAR: minuto 1:15:00 del video 1 de repaso.
     createdByUser,
+    genre, // ! REPASAR: minuto 1:15:00 del video 1 de repaso.
   } = req.body;
 
   try {
@@ -112,8 +116,7 @@ router.post('/videogames', async (req, res) => {
     });
 
     newVideogame.addGenres(genreDB);
-
-    res.json(newVideogame);
+    res.send('Videogame created successfully');
   } catch (error) {
     res.status(404).send('incorrect data');
   }

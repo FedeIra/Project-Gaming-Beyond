@@ -1,4 +1,10 @@
 body {
+  /* background: url('https://cdn-res.keymedia.com/cms/images/ca/155/0319_637171637373959129.jpg'); */
+  color: #111010;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
