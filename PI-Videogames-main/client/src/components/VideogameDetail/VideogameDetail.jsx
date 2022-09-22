@@ -37,20 +37,3 @@ const VideogameDetail = (gameProps) => {
 };
 
 export default VideogameDetail;
-
-//TODO: Without loading
-//   return (
-//     <div>
-//       <h1>{videogame.name}</h1>
-//       <img src={videogame.image} alt="img" width="200px" height="200px" />
-//       <p> Description: {videogame.description}</p>
-//       <p> Released: {videogame.released}</p>
-//       <p> Rating: {videogame.rating}</p>
-//       <p> Platforms: {videogame.platforms}</p>
-//       <p> Genres: {videogame.genre}</p>
-//       <Link to="/videogames">
-//         <button>Back</button>
-//       </Link>
-//     </div>
-//   );
-// };

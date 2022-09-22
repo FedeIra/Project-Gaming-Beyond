@@ -1,4 +1,5 @@
 import React from 'react';
+import style from './Paginate.module.css';
 
 export default function Paginate({ videogames, paginate }) {
   const pageNumbers = [];
@@ -7,14 +8,15 @@ export default function Paginate({ videogames, paginate }) {
     pageNumbers.push(i);
   }
   return (
-    <nav>
-      <ul>
-        {pageNumbers?.map((number) => (
-          <li key={number}>
-            <button onClick={() => paginate(number)}>{number}</button>
-          </li>
-        ))}
-      </ul>
+    <nav className={style.paginate}>
+      {pageNumbers?.map((number) => (
+        <button
+          className={style.paginate_buttons}
+          onClick={() => paginate(number)}
+        >
+          {number}
+        </button>
+      ))}
     </nav>
   );
 }

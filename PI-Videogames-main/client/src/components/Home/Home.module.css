@@ -1,0 +1,47 @@
+body {
+  background-image: url('../../assets/landing-page/background-image.jpg');
+  background-size: cover;
+}
+
+.home {
+  font-family: 'VT323', monospace;
+  height: 100vh;
+  width: 100vw;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 70px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(3, 62, 43);
+  /* background cover all: */
+  background-size: cover;
+  border-radius: 15%;
+}
+
+.header_title {
+  display: flex;
+  align-items: center;
+}
+
+.header_title img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.filters {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

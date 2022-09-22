@@ -1,0 +1,24 @@
+.paginate {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.paginate_buttons {
+  padding: 10px;
+  margin: 7px;
+  border-radius: 10px;
+  background-color: rgb(3, 62, 43);
+  color: white;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.paginate_buttons:hover {
+  background-color: #990000;
+  color: rgb(239, 232, 232);
+  transform: scale(1.1);
+  transition: 0.5s;
+  box-shadow: 0 0 10px #4caf50;
+}

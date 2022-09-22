@@ -55,8 +55,8 @@ router.get('/videogames/:id', async (req, res) => {
 router.get('/videogames', async (req, res) => {
   const { search } = req.query;
 
-  if (search) {
-    try {
+  try {
+    if (search) {
       const videogamesDB = await getVideogamesByNameDb(search);
 
       let videogamesAPI = await getVideogamesByNameApi(search);
@@ -64,24 +64,17 @@ router.get('/videogames', async (req, res) => {
       if (videogamesDB.length + videogamesAPI.length > 15) {
         videogamesAPI = videogamesAPI.slice(0, 15 - videogamesDB.length); // If there are more than 15 videogames, slice API results.
       }
-
       const videogames = [...videogamesDB, ...videogamesAPI];
       res.json(videogames);
-    } catch (error) {
-      res
-        .status(404)
-        .send({ message: `The videogame ${search} does not exist.` });
-    }
-  } else {
-    try {
+    } else {
       const videogamesBS = await getVideogamesDb();
       const videogamesAPI = await getVideogamesApi();
 
       const videogames = [...videogamesAPI, ...videogamesBS];
       res.json(videogames);
-    } catch (error) {
-      res.status(404).send('No videogames found');
     }
+  } catch (error) {
+    res.status(404).send(error);
   }
 });
 
@@ -95,7 +88,7 @@ router.post('/videogames', async (req, res) => {
     platforms,
     image,
     createdByUser,
-    genre, // ! REPASAR: minuto 1:15:00 del video 1 de repaso.
+    genre,
   } = req.body;
 
   try {

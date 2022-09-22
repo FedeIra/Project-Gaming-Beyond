@@ -29,13 +29,13 @@ module.exports = (sequelize) => {
         type: DataTypes.FLOAT,
       },
       platforms: {
-        type: DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        // type: DataTypes.STRING,
         allowNull: false,
       },
       image: {
         type: DataTypes.TEXT,
-        defaultValue:
-          'https://leviathyn.com/wp-content/uploads/2014/12/game-of-the-year-1050x590.jpg',
+        defaultValue: 'https://i.imgur.com/3ZQ3Z4O.png',
       },
       // OPTIONAL: for filter by created.
       createdByUser: {

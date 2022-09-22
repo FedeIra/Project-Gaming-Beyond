@@ -6,13 +6,16 @@ import {
   FILTER_BY_CREATION,
   ORDER_BY_AZ,
   ORDER_BY_RATING,
+  GET_VIDEOGAMES_BY_NAME,
+  GET_GENRES,
+  CREATE_VIDEOGAME,
 } from '../actions/index.js';
 
 const initialState = {
   videogames: [],
   allVideogames: [],
   videogameDetail: [],
-  // genres: [],
+  genres: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -20,8 +23,8 @@ const rootReducer = (state = initialState, action) => {
     case GET_VIDEOGAMES:
       return {
         ...state,
-        videogames: action.payload,
-        allVideogames: action.payload,
+        videogames: [...action.payload],
+        allVideogames: [...action.payload],
       };
     case GET_VIDEOGAMES_REFRESH:
       return {
@@ -32,6 +35,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         videogameDetail: action.payload,
+      };
+    case GET_VIDEOGAMES_BY_NAME:
+      return {
+        ...state,
+        videogames: action.payload,
       };
     case FILTER_BY_GENRE:
       const videogames = state.allVideogames;
@@ -56,23 +64,43 @@ const rootReducer = (state = initialState, action) => {
         videogames: creationFilter,
       };
     case ORDER_BY_AZ:
+      const videogames3 = [...state.allVideogames];
       const orderAZ =
-        action.payload === 'A'
-          ? state.videogames.sort((a, b) => (a.name > b.name ? 1 : -1))
-          : state.videogames.sort((a, b) => (a.name > b.name ? -1 : 1));
+        action.payload === 'All'
+          ? videogames3
+          : action.payload === 'A'
+          ? videogames3.sort((a, b) =>
+              a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1
+            )
+          : videogames3.sort((a, b) =>
+              a.name.toUpperCase() > b.name.toUpperCase() ? -1 : 1
+            );
       return {
         ...state,
         videogames: orderAZ,
       };
     case ORDER_BY_RATING:
-      const videogames3 = state.allVideogames;
+      const videogames4 = [...state.allVideogames];
       const orderByRating =
-        action.payload === 'asc'
-          ? videogames3.sort((a, b) => (a.rating > b.rating ? -1 : 1))
-          : videogames3.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+        action.payload === 'All'
+          ? videogames4
+          : action.payload === 'asc'
+          ? videogames4.sort((a, b) => (a.rating > b.rating ? -1 : 1))
+          : videogames4.sort((a, b) => (a.rating > b.rating ? 1 : -1));
       return {
         ...state,
         videogames: orderByRating,
+      };
+    case GET_GENRES:
+      return {
+        ...state,
+        genres: action.payload,
+      };
+    case CREATE_VIDEOGAME:
+      return {
+        ...state,
+        videogames: [...state.videogames, action.payload],
+        allVideogames: [...state.allVideogames, action.payload],
       };
     default:
       return state;

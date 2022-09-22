@@ -1,4 +1,3 @@
-//TODO : 1) make function for building game to be used by all api functions instead of repeating itself.
 // API functions to be exported to index:
 require(`dotenv`).config();
 const axios = require('axios');
@@ -26,6 +25,7 @@ const getVideogamesApi = async () => {
       name: game.name,
       genre: game.genres.map((element) => element.name).join(', '),
       rating: game.rating,
+      platforms: game.platforms.map((element) => element.platform.name),
     };
   });
   return videoGamesApi;
@@ -40,15 +40,10 @@ const getVideogamesByNameApi = async (name) => {
   const videoGames = apiResponse.data.results
     .map((game) => {
       return {
+        id: game.id,
         image: game.background_image,
         name: game.name,
         genre: game.genres.map((element) => element.name).join(', '),
-        description: game.description, //First 100 games do not have description. I have requested it anyway.
-        released: game.released.replace(/-/g, '/'),
-        rating: game.rating,
-        platforms: game.platforms
-          .map((platform) => platform.platform.name)
-          .join(', '),
       };
     })
     .slice(0, 15);
@@ -65,7 +60,9 @@ const getVideogamesByIdApi = async (id) => {
     image: apiResponse.data.background_image,
     name: apiResponse.data.name,
     genre: apiResponse.data.genres.map((element) => element.name).join(', '),
-    description: apiResponse.data.description.replace(/<[^>]*>/g, ''),
+    description: apiResponse.data.description
+      .replace(/<[^>]*>/g, '')
+      .replace(/&#39;/g, ''),
     released: apiResponse.data.released.replace(/-/g, '/'),
     rating: apiResponse.data.rating,
     platforms: apiResponse.data.platforms
