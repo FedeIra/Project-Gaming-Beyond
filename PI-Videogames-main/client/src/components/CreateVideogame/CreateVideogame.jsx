@@ -6,6 +6,8 @@ import {
 } from '../../actions/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Route } from 'react-router-dom';
+import style from './CreateVideogame.module.css';
+import icon1 from '../../assets/landing-page/main-icon.ico';
 
 function validations(input) {
   let errors = {};
@@ -46,7 +48,7 @@ export default function CreateVideogame() {
     name: '',
     description: '',
     released: new Date().toISOString().slice(0, 10),
-    rating: 0,
+    rating: '',
     platforms: [],
     image: '',
     genre: [],
@@ -127,115 +129,155 @@ export default function CreateVideogame() {
   }
 
   return (
-    <div>
-      <h1>Create a new videogame</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name: </label>
+    <div className={style.container_all}>
+      <div className={style.navBar}>
+        <div className={style.logo}>
+          <img className={style.icon} src={icon1} alt="icon" />
+          <h2>{`Gaming & Beyond`}</h2>
+        </div>
+        <Link to="/videogames">
+          <button className={style.button}>{`Back`}</button>
+        </Link>
+      </div>
+      <div className={style.form_general}>
+        <div className={style.header}>
+          <h1>Add a new game</h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <label>Name*: </label>
           <input
+            className={style.form_inputs}
             type="text"
             name="name"
+            placeholder="Name..."
             value={input.name}
             onChange={handleChange}
           />
-          {errors.name && <p>{errors.name}</p>}
-        </div>
-        <div>
-          <label>Description: </label>
+          {errors.name && <p className={style.errors}>{errors.name}</p>}
+
+          <label>Description*: </label>
           <textarea
+            className={style.form_inputs}
             type="text"
             name="description"
+            placeholder="Description..."
             value={input.description}
             onChange={handleChange}
           />
-          {errors.description && <p>{errors.description}</p>}
-        </div>
-        <div>
-          <label>Released: </label>
-          <input
-            type="date"
-            name="released"
-            value={input.released}
-            onChange={handleChange}
-          />
-          {errors.released && <p>{errors.released}</p>}
-        </div>
-        <div>
-          <label>Rating: </label>
-          <input
-            type="number"
-            name="rating"
-            value={input.rating}
-            onChange={handleChange}
-          />
-          {errors.rating && <p>{errors.rating}</p>}
-        </div>
-        <div>
+          {errors.description && (
+            <p className={style.errors}>{errors.description}</p>
+          )}
+
+          <div className={style.label_columns}>
+            <label>Released: </label>
+            <label>Rating: </label>
+          </div>
+          <div className={style.input_columns}>
+            <input
+              className={style.form_inputs}
+              type="date"
+              name="released"
+              value={input.released}
+              onChange={handleChange}
+            />
+
+            <input
+              className={style.form_inputs}
+              type="number"
+              name="rating"
+              placeholder="0-5"
+              value={input.rating}
+              onChange={handleChange}
+            />
+          </div>
+          <div className={style.errorsColumns}>
+            {errors.released && (
+              <p className={style.errors}>{errors.released}</p>
+            )}
+            {errors.rating && <p className={style.errors}>{errors.rating}</p>}
+          </div>
+
           <label>Image: </label>
           <input
+            className={style.form_inputs}
             type="text"
             name="image"
-            placeholder="Image link..."
+            placeholder="https://assets1.ignimgs.com/thumbs/userUploaded/2015/8/28/bestsellinggames1280-1440779592068_1280w.jpg"
             value={input.image}
             onChange={handleChange}
           />
-        </div>
-        <div>
           <label>Genres: </label>
-          <select onChange={(e) => handleSelectGenres(e)}>
-            <option>-</option>
+          <select
+            className={style.form_inputs}
+            onChange={(e) => handleSelectGenres(e)}
+          >
+            <option>Select...</option>
+
             {genres.map((genre) => (
               <option value={genre}>{genre}</option>
             ))}
           </select>
-          <div>
-            {input.genre.length > 0 &&
-              input.genre.map((genre) => (
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  value={genre}
-                >{`${genre}  x`}</button>
-              ))}
-          </div>
-        </div>
-        <div>
-          <label>Platforms: </label>
-          <select onChange={handleSelectPlatforms}>
-            <option>-</option>
+
+          {input.genre.length > 0 &&
+            input.genre.map((genre) => (
+              <button
+                className={style.button_properties}
+                type="button"
+                onClick={handleDelete}
+                value={genre}
+              >
+                {genre}
+              </button>
+            ))}
+
+          <br />
+          <br />
+
+          <label>Platforms*: </label>
+          <select
+            className={style.form_inputs}
+            onChange={handleSelectPlatforms}
+          >
+            <option className={style.options}>Select...</option>
+
             {allPlatforms.map((platform) => (
               <option value={platform}>{platform}</option>
             ))}
           </select>
-          <div>
-            {input.platforms.length > 0 ? (
-              input.platforms.map((platform) => (
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  value={platform}
-                >{`${platform}  x`}</button>
-              ))
-            ) : (
-              <span>Select at least one platform</span>
-            )}
-          </div>
-        </div>
-        <button
-          type="submit"
-          disabled={
-            errors.name ||
-            errors.description ||
-            errors.release ||
-            input.platforms.length === 0
-          }
-        >
-          Create
-        </button>
-      </form>
-      <Link to="/videogames">
-        <button>Back</button>
-      </Link>
+
+          {input.platforms.length > 0 ? (
+            input.platforms.map((platform) => (
+              <button
+                className={style.button_properties}
+                type="button"
+                onClick={handleDelete}
+                value={platform}
+              >
+                {platform}
+              </button>
+            ))
+          ) : input.length === 0 ? null : (
+            <div className={style.errors}>Select at least one platform.</div>
+          )}
+          <br />
+          <br />
+          <button
+            className={style.button}
+            type="submit"
+            disabled={
+              errors.name ||
+              errors.description ||
+              errors.release ||
+              input.platforms.length === 0
+            }
+          >
+            Add!
+          </button>
+          <Link to="/videogames">
+            <button className={style.button}>{`Back`}</button>
+          </Link>
+        </form>
+      </div>
     </div>
   );
 }

@@ -10,10 +10,7 @@ export default function Paginate({ videogames, paginate }) {
   return (
     <nav className={style.paginate}>
       {pageNumbers?.map((number) => (
-        <button
-          className={style.paginate_buttons}
-          onClick={() => paginate(number)}
-        >
+        <button className={style.buttons} onClick={() => paginate(number)}>
           {number}
         </button>
       ))}

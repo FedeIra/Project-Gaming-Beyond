@@ -35,7 +35,8 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.TEXT,
-        defaultValue: 'https://i.imgur.com/3ZQ3Z4O.png',
+        defaultValue:
+          'https://c4.wallpaperflare.com/wallpaper/699/369/173/video-games-the-elder-scrolls-v-skyrim-grand-theft-auto-v-mass-effect-3-wallpaper-preview.jpg',
       },
       // OPTIONAL: for filter by created.
       createdByUser: {

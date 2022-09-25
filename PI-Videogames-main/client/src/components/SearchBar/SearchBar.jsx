@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getVideogamesByName } from '../../actions/index.js';
+import style from './SearchBar.module.css';
+import search from '../../assets/search-bar/search.png';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -19,15 +21,17 @@ const SearchBar = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={style.search_form} onSubmit={handleSubmit}>
       <input
+        className={style.search_bar}
         type="text"
         placeholder="Search..."
         value={game}
         onChange={handleInputChange}
       />
-      <button type="submit" onClick={handleSubmit}>
-        Search
+      <button className={style.button} type="submit" onClick={handleSubmit}>
+        {/* set icon search: */}
+        <img className={style.icon} alt="search" src={search} />
       </button>
     </form>
   );

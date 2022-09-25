@@ -15,6 +15,8 @@ import Card from '../Card/Card.jsx';
 import Paginate from '../Paginate/Paginate.jsx';
 import SearchBar from '../SearchBar/SearchBar.jsx';
 import icon1 from '../../assets/landing-page/main-icon.ico';
+import loader from '../../assets/home/loader.gif';
+import refresh from '../../assets/home/refresh4.png';
 import style from './Home.module.css';
 
 const Home = () => {
@@ -89,62 +91,88 @@ const Home = () => {
       <div className={style.header}>
         <div className={style.header_title}>
           <img src={icon1} alt="icon" />
-
-          <h1>{'GAMING & BEYOND'}</h1>
+          <h1>{'Gaming & Beyond'}</h1>
         </div>
         <Link to={'/videogames/create'}>
-          <button>Create Videogame</button>
+          <button className={style.button}> {'Add game!'}</button>
         </Link>
       </div>
       <div className={style.filters}>
-        <SearchBar />
-        {/* A-Z: */}
+        <SearchBar /> {/* A-Z: */}
         <select
+          className={style.select}
           onChange={(e) => {
             handleOrderAZ(e);
           }}
         >
-          <option value="All">Alphabetical Sort</option>
-          <option value="A">A-Z</option>
-          <option value="Z">Z-A</option>
+          <option className={style.select_options} value="All">
+            Alphabetical Sort
+          </option>
+          <option className={style.select_options} value="A">
+            A-Z
+          </option>
+          <option className={style.select_options} value="Z">
+            Z-A
+          </option>
         </select>
         {/* Rating: */}
         <select
+          className={style.select}
           onChange={(e) => {
             handleOrderRating(e);
           }}
         >
-          <option value="All">Rating Sort</option>
-          <option value="asc">Higher-Lower</option>
-          <option value="desc">Lower-Higher</option>
+          <option className={style.select_options} value="All">
+            Rating Sort
+          </option>
+          <option className={style.select_options} value="asc">
+            Higher-Lower
+          </option>
+          <option className={style.select_options} value="desc">
+            Lower-Higher
+          </option>
         </select>
         {/* Genres: */}
         <select
+          className={style.select}
           onChange={(e) => {
             handleFilterGenre(e);
           }}
         >
-          <option value="All">Filter by Genre</option>
+          <option className={style.select_options} value="All">
+            Filter by Genre
+          </option>
           {genres.map((genre) => (
-            <option value={genre}>{genre}</option>
+            <option className={style.select_options} value={genre}>
+              {genre}
+            </option>
           ))}
         </select>
         {/* Created or existing: */}
         <select
+          className={style.select}
           onChange={(e) => {
             handleFilterCreation(e);
           }}
         >
-          <option value="All">All</option>
-          <option value="created">Created</option>
-          <option value="api">Existing</option>
+          <option className={style.select_options} value="All">
+            All
+          </option>
+          <option className={style.select_options} value="created">
+            Created
+          </option>
+          <option className={style.select_options} value="api">
+            Existing
+          </option>
         </select>
         <button
+          /* add two classes to button: */
+          className={`${style.button} ${style.button_refresh}`}
           onClick={(e) => {
             handleClick(e);
           }}
         >
-          Refresh
+          <img className={style.image_refresh} src={refresh} alt="refresh" />
         </button>
       </div>
       <div>
@@ -156,29 +184,32 @@ const Home = () => {
             currentVideogames.map((game) => {
               return (
                 <div className={style.cards}>
-                  <Link to={`/videogames/${game.id}`}>
-                    <Card
-                      name={game.name}
-                      image={game.image}
-                      genre={game.genre}
-                      id={game.id}
-                    />
-                  </Link>
+                  <Card
+                    name={game.name}
+                    image={game.image}
+                    genre={game.genre}
+                    id={game.id}
+                  />
                 </div>
               );
             })
           ) : (
-            <div>
-              <h1>Searching for videogames...</h1>
+            <div className={style.loader}>
               <button
+                className={style.button}
                 onClick={(e) => {
                   handleClick(e);
                 }}
               >
                 Back
               </button>
+              <h1>Searching for videogames...</h1>
+              <img className={style.image_loader} src={icon1} alt="gif" />
             </div>
           )}
+        </div>
+        <div className={style.footer}>
+          <Paginate videogames={videogames.length} paginate={paginate} />
         </div>
       </div>
     </div>

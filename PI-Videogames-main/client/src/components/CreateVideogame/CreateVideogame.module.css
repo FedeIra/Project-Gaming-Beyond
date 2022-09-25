@@ -1,0 +1,239 @@
+.container_all {
+  background: linear-gradient(180deg, #0e1211 0%, #013c3e 100%);
+}
+
+.navBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2%;
+}
+
+.logo {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  color: rgb(255, 255, 255);
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: #3e866c 1px solid;
+  margin: 10px;
+}
+
+.form_general {
+  background-color: #5e7979;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font: bolder;
+  height: 100vh;
+  width: 50vw;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 70px;
+  padding-bottom: 140px;
+  padding-top: 10px;
+}
+
+.form_general::-webkit-scrollbar {
+  width: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 30px;
+}
+
+.form_inputs {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #3e866c;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: black;
+  color: white;
+}
+
+.form_inputs::-webkit-input-placeholder {
+  color: white;
+}
+
+.label_columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 330px;
+}
+
+.input_columns {
+  display: flex;
+  flex-direction: row;
+}
+
+.errorsColumns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 20%;
+}
+
+.button {
+  background-color: #3e866c;
+  color: rgb(255, 255, 255);
+  padding: 10px 28px;
+  font-size: 15px;
+  margin: 20px 20px 18px 0;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+}
+
+.button:hover {
+  transform: scale(1.3);
+  transition: 0.5s;
+}
+
+.errors {
+  color: rgb(193, 57, 57);
+}
+
+.button_properties {
+  color: #f1f1f1;
+  padding: 3px;
+  font-size: 16px;
+  margin-left: 10px;
+  border-radius: 100px;
+  border-color: transparent;
+  font-size: 12px;
+  background-color: #2f5d50;
+}
+
+.button_properties:hover {
+  background-color: rgb(148, 3, 3);
+  transform: scale(0.9);
+  transition: 0.5s;
+}
+
+.options {
+  color: #3e866c;
+}
+
+/* .container_all {
+  background-color: #0e0f12;
+  background: linear-gradient(180deg, #0e1211 0%, #013c3e 100%);
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  margin-top: -8px;
+}
+
+.navBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2%;
+}
+
+.logo {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  color: rgb(255, 255, 255);
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: #3e866c 1px solid;
+  margin: 10px;
+}
+
+.form_general {
+  background-color: #5e7979;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font: bolder;
+  height: 100vh;
+  width: 50vw;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 70px;
+  padding-bottom: 140px;
+  padding-top: 10px;
+  /* overflow-y: scroll; */
+/* } */
+/* 
+.form_general::-webkit-scrollbar {
+  width: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 30px;
+}
+
+.form_inputs {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #3e866c;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: black;
+  color: white;
+}
+
+.button {
+  background-color: #3e866c;
+  color: rgb(255, 255, 255);
+  padding: 10px 28px;
+  font-size: 15px;
+  margin: 14px 20px 18px 42%;
+  margin: 20px 20px 18px 0;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+}
+
+.button:hover {
+  transform: scale(1.3);
+  transition: 0.5s;
+}
+
+.errors {
+  color: rgb(193, 57, 57);
+}
+
+.button_properties {
+  color: #f1f1f1;
+  padding: 3px;
+  font-size: 16px;
+  margin-left: 10px;
+  border-radius: 100px;
+  border-color: transparent;
+  font-size: 12px;
+  background-color: #2f5d50;
+}
+
+.button_properties:hover {
+  background-color: rgb(148, 3, 3);
+  transform: scale(0.8);
+  transition: 0.5s;
+}
+
+.options {
+  color: #3e866c; */
+/* } */
