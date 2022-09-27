@@ -1,6 +1,10 @@
+// Import React utilities:
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+//Import actions:
 import {
   getVideogames,
   getVideogamesRefresh,
@@ -9,41 +13,27 @@ import {
   orderVideogamesByAZ,
   orderVideogamesByRating,
   getGenres,
+  setCurrentPage,
 } from '../../actions/index.js';
-import { Link } from 'react-router-dom';
+
+//Import components:
 import Card from '../Card/Card.jsx';
 import Paginate from '../Paginate/Paginate.jsx';
 import SearchBar from '../SearchBar/SearchBar.jsx';
-import icon1 from '../../assets/landing-page/main-icon.ico';
-import loader from '../../assets/home/loader.gif';
-import refresh from '../../assets/home/refresh4.png';
+
+//Import styles and images:
 import style from './Home.module.css';
+import icon1 from '../../assets/landing-page/main-icon.ico';
+import * as images from '../../assets/home/home_images.js';
 
+// Component:
 const Home = () => {
-  const dispatch = useDispatch(); // function to dispatch actions
+  const dispatch = useDispatch();
+
+  // Global states:
   const videogames = useSelector((state) => state.videogames);
-
-  const [orden, setOrden] = useState('');
-
-  // Get genres for createvideogames:
   const genres = useSelector((state) => state.genres);
-  // PAGINATION:
-  const [currentPage, setCurrentPage] = useState(1); // local states. Initial page is 1
-
-  const indexOfLastVideogame = currentPage * 15; // 1 * 15 = 14
-  const indexOfFirstVideogame = indexOfLastVideogame - 15; // 15 - 15 = 0
-  const currentVideogames = videogames.slice(
-    indexOfFirstVideogame,
-    indexOfLastVideogame
-  ); // slice the array of videogames
-
-  // 1 ----- 0 ------ 14
-  // 2 ----- 15 ------ 29
-  // ...
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  }; // function to change the page
+  const currentPage = useSelector((state) => state.currentPage);
 
   useEffect(() => {
     if (videogames.length === 0) {
@@ -52,42 +42,55 @@ const Home = () => {
     if (genres.length === 0) {
       dispatch(getGenres());
     }
-  }, [dispatch]);
+  }, []);
 
-  function handleClick(e) {
-    e.preventDefault();
-    setCurrentPage(1);
-    dispatch(getVideogamesRefresh());
+  //Pagination:
+  const indexOfLastVideogame = currentPage * 15;
+  const indexOfFirstVideogame = indexOfLastVideogame - 15;
+  const currentVideogames = videogames.slice(
+    indexOfFirstVideogame,
+    indexOfLastVideogame
+  );
+
+  const paginate = (pageNumber) => {
+    dispatch(setCurrentPage(pageNumber));
+  };
+
+  // Functions for filter and sorts:
+  function handleOrderAZ(e) {
+    dispatch(setCurrentPage(1));
+    dispatch(orderVideogamesByAZ(e.target.value));
+  }
+
+  function handleOrderRating(e) {
+    dispatch(orderVideogamesByRating(e.target.value));
+    dispatch(setCurrentPage(1));
   }
 
   function handleFilterGenre(e) {
-    e.preventDefault();
-    setCurrentPage(1);
+    dispatch(setCurrentPage(1));
     dispatch(filterVideogamesByGenre(e.target.value));
   }
 
   function handleFilterCreation(e) {
-    e.preventDefault();
-    setCurrentPage(1);
+    dispatch(setCurrentPage(1));
     dispatch(filterVideogamesAPIorDB(e.target.value));
   }
 
-  function handleOrderAZ(e) {
-    e.preventDefault();
-    dispatch(orderVideogamesByAZ(e.target.value));
-    setCurrentPage(1);
-    setOrden(e.target.value);
+  // Function for refresh:
+  function handleClick(e) {
+    dispatch(setCurrentPage(1));
+    dispatch(getVideogamesRefresh());
+    document.getElementById('sortAZ').value = 'All';
+    document.getElementById('sortRating').value = 'All';
+    document.getElementById('filterGenre').value = 'All';
+    document.getElementById('filterCreation').value = 'All';
   }
 
-  function handleOrderRating(e) {
-    e.preventDefault();
-    dispatch(orderVideogamesByRating(e.target.value));
-    setCurrentPage(1);
-    setOrden(e.target.value);
-  }
-
+  // Render:
   return (
     <div className={style.home}>
+      {/* Header: */}
       <div className={style.header}>
         <div className={style.header_title}>
           <img src={icon1} alt="icon" />
@@ -98,8 +101,11 @@ const Home = () => {
         </Link>
       </div>
       <div className={style.filters}>
-        <SearchBar /> {/* A-Z: */}
+        {/* Component SearchBar: */}
+        <SearchBar />
+        {/* Sort by A-Z: */}
         <select
+          id="sortAZ"
           className={style.select}
           onChange={(e) => {
             handleOrderAZ(e);
@@ -115,8 +121,9 @@ const Home = () => {
             Z-A
           </option>
         </select>
-        {/* Rating: */}
+        {/* Sort by rating: */}
         <select
+          id="sortRating"
           className={style.select}
           onChange={(e) => {
             handleOrderRating(e);
@@ -132,8 +139,9 @@ const Home = () => {
             Lower-Higher
           </option>
         </select>
-        {/* Genres: */}
+        {/* Filter by genres: */}
         <select
+          id="filterGenre"
           className={style.select}
           onChange={(e) => {
             handleFilterGenre(e);
@@ -143,13 +151,14 @@ const Home = () => {
             Filter by Genre
           </option>
           {genres.map((genre) => (
-            <option className={style.select_options} value={genre}>
+            <option key={genre} className={style.select_options} value={genre}>
               {genre}
             </option>
           ))}
         </select>
-        {/* Created or existing: */}
+        {/* Filter by created or existing: */}
         <select
+          id="filterCreation"
           className={style.select}
           onChange={(e) => {
             handleFilterCreation(e);
@@ -166,24 +175,30 @@ const Home = () => {
           </option>
         </select>
         <button
-          /* add two classes to button: */
           className={`${style.button} ${style.button_refresh}`}
           onClick={(e) => {
             handleClick(e);
           }}
         >
-          <img className={style.image_refresh} src={refresh} alt="refresh" />
+          <img
+            className={style.image_refresh}
+            src={images.refresh}
+            alt="refresh"
+          />
         </button>
       </div>
       <div>
+        {/* Component Paginate: */}
         <div>
           <Paginate videogames={videogames.length} paginate={paginate} />
         </div>
+
+        {/* Component card: */}
         <div className={style.cards}>
           {currentVideogames.length > 0 ? (
             currentVideogames.map((game) => {
               return (
-                <div className={style.cards}>
+                <div key={game.id} className={style.cards}>
                   <Card
                     name={game.name}
                     image={game.image}
@@ -194,6 +209,7 @@ const Home = () => {
               );
             })
           ) : (
+            /* Loader: */
             <div className={style.loader}>
               <button
                 className={style.button}
@@ -208,8 +224,53 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className={style.footer}>
+        {/* Component Paginate: */}
+        <span className={style.buttons_footer}>
           <Paginate videogames={videogames.length} paginate={paginate} />
+        </span>
+        {/* Footer: */}
+        <div className={style.footer}>
+          <span>Contact Federico Irarrazaval: </span>
+          <a
+            href="https://www.linkedin.com/in/federico-irarr%C3%A1zaval-314b89a1/"
+            target="blank"
+            rel="nofollow"
+          >
+            <img
+              className={style.footer_icons}
+              alt="linkedin"
+              src={images.linkedin}
+            />
+          </a>
+          <a
+            href="https://github.com/search?q=FedeIra&type=users"
+            target="blank"
+            rel="nofollow"
+          >
+            <img
+              className={style.footer_icons}
+              alt="github"
+              src={images.github}
+            />
+          </a>
+          <a
+            href="https://api.whatsapp.com/send?phone=5491167887879&text=Hey"
+            target="blank"
+            rel="nofollow"
+          >
+            <img
+              className={style.footer_icons}
+              alt="whatsapp"
+              src={images.whatsapp}
+            />
+          </a>
+          <a href="mailto: fedeirar@gmail.com" target="blank" rel="nofollow">
+            <img
+              className={style.footer_icons}
+              alt="email"
+              src={images.email}
+            />
+          </a>
         </div>
       </div>
     </div>

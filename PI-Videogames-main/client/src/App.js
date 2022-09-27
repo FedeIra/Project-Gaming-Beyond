@@ -1,10 +1,16 @@
-import './App.css';
+// Import react utilities:
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+// Import components:
 import Home from './components/Home/Home.jsx';
 import LandingPage from './components/LandingPage/LandingPage.jsx';
 import VideogameDetail from './components/VideogameDetail/VideogameDetail.jsx';
 import CreateVideogame from './components/CreateVideogame/CreateVideogame.jsx';
 
+// Import style:
+import './App.css';
+
+// Create App component:
 function App() {
   return (
     <BrowserRouter>

@@ -8,7 +8,7 @@ const { Genre } = require('../db');
 const getVideogamesApi = async () => {
   let videoGames = [],
     page = 1;
-  const totalPages = 2; // total of 120 games (20 games per page). For spare space in pagination, so i have room to create more games in the future. //! PONER TOTALPAGES EN 7!!!!!!!!!!!!
+  const totalPages = 7; // total of 120 games (20 games per page). For spare space in pagination, so i have room to create more games in the future. //! Set in 2 for developing purposes.
 
   while (page < totalPages) {
     const apiResponse = await axios.get(
@@ -61,7 +61,7 @@ const getVideogamesByIdApi = async (id) => {
     name: apiResponse.data.name,
     genre: apiResponse.data.genres.map((element) => element.name).join(', '),
     description: apiResponse.data.description
-      .replace(/<[^>]*>/g, '')
+      .replace(/(<([^>]+)>)/gi, '')
       .replace(/&#39;/g, ''),
     released: apiResponse.data.released.replace(/-/g, '/'),
     rating: apiResponse.data.rating,

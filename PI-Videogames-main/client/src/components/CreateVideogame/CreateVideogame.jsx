@@ -1,14 +1,20 @@
+// Import React utilities:
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+// Import actions:
 import {
   createVideogame,
   getGenres,
   getVideogames,
 } from '../../actions/index.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, Route } from 'react-router-dom';
+
+//Import styles and images:
 import style from './CreateVideogame.module.css';
 import icon1 from '../../assets/landing-page/main-icon.ico';
 
+// Function validations:
 function validations(input) {
   let errors = {};
   if (!input.name) {
@@ -26,22 +32,24 @@ function validations(input) {
   return errors;
 }
 
+// Component:
 export default function CreateVideogame() {
   const dispatch = useDispatch();
 
+  // Global states:
+  const videogames = useSelector((state) => state.videogames);
   const genres = useSelector((state) => state.genres);
 
-  // set a platform array taking all platforms from videogames only from api:
-  const videogames = useSelector((state) => state.allVideogames);
-  let allPlatforms = useSelector((state) => state.allVideogames);
+  useEffect(() => {
+    if (genres.length === 0) {
+      dispatch(getGenres());
+    }
+    if (videogames.length === 0) {
+      dispatch(getVideogames());
+    }
+  }, []);
 
-  allPlatforms = allPlatforms
-    .filter((p) => typeof p.id === 'number')
-    .map((videogame) => videogame.platforms)
-    .flat();
-
-  allPlatforms = [...new Set(allPlatforms)];
-
+  // Local states:
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
@@ -54,15 +62,17 @@ export default function CreateVideogame() {
     genre: [],
   });
 
-  useEffect(() => {
-    if (genres.length === 0) {
-      dispatch(getGenres());
-    }
-    if (videogames.length === 0) {
-      dispatch(getVideogames());
-    }
-  }, [dispatch]);
+  // Define platforms:
+  let allPlatforms = useSelector((state) => state.allVideogames);
 
+  allPlatforms = allPlatforms
+    .filter((p) => typeof p.id === 'number')
+    .map((videogame) => videogame.platforms)
+    .flat();
+
+  allPlatforms = [...new Set(allPlatforms)];
+
+  // Functions for input, errors and submit:
   function handleChange(e) {
     setInput({
       ...input,
@@ -81,23 +91,23 @@ export default function CreateVideogame() {
     dispatch(createVideogame(input));
     setTimeout(() => {
       dispatch(getVideogames());
-    }, 1000);
-    alert('Videogame created successfully');
+    }, 0);
+    alert('Videogame created successfully!');
     setInput({
       name: '',
       description: '',
-      released: '',
+      released: new Date().toISOString().slice(0, 10),
       rating: '',
-      platforms: '',
+      platforms: [],
       image: '',
-      genre: '',
+      genre: [],
     });
   }
 
+  // Functions for select and delete genres/platforms:
   function handleSelectGenres(e) {
     setInput({
       ...input,
-      // only concat new genre if value is not already in array and if value is not empty:
       genre: input.genre.includes(e.target.value)
         ? input.genre
         : e.target.value !== '-'
@@ -109,7 +119,6 @@ export default function CreateVideogame() {
   function handleSelectPlatforms(e) {
     setInput({
       ...input,
-      // only concat new platform if value is not already in array and if value is not empty:
       platforms: input.platforms.includes(e.target.value)
         ? input.platforms
         : e.target.value !== '-'
@@ -128,8 +137,10 @@ export default function CreateVideogame() {
     });
   }
 
+  // Render:
   return (
     <div className={style.container_all}>
+      {/* Header: */}
       <div className={style.navBar}>
         <div className={style.logo}>
           <img className={style.icon} src={icon1} alt="icon" />
@@ -139,6 +150,7 @@ export default function CreateVideogame() {
           <button className={style.button}>{`Back`}</button>
         </Link>
       </div>
+      {/* Form: */}
       <div className={style.form_general}>
         <div className={style.header}>
           <h1>Add a new game</h1>
@@ -196,7 +208,6 @@ export default function CreateVideogame() {
             )}
             {errors.rating && <p className={style.errors}>{errors.rating}</p>}
           </div>
-
           <label>Image: </label>
           <input
             className={style.form_inputs}
@@ -211,13 +222,15 @@ export default function CreateVideogame() {
             className={style.form_inputs}
             onChange={(e) => handleSelectGenres(e)}
           >
-            <option>Select...</option>
-
+            <option disabled selected>
+              Select...
+            </option>
             {genres.map((genre) => (
-              <option value={genre}>{genre}</option>
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
             ))}
           </select>
-
           {input.genre.length > 0 &&
             input.genre.map((genre) => (
               <button
@@ -229,25 +242,28 @@ export default function CreateVideogame() {
                 {genre}
               </button>
             ))}
-
           <br />
           <br />
-
           <label>Platforms*: </label>
           <select
             className={style.form_inputs}
             onChange={handleSelectPlatforms}
           >
-            <option className={style.options}>Select...</option>
+            <option disabled selected className={style.options}>
+              Select...
+            </option>
 
             {allPlatforms.map((platform) => (
-              <option value={platform}>{platform}</option>
+              <option key={platform} value={platform}>
+                {platform}
+              </option>
             ))}
           </select>
 
           {input.platforms.length > 0 ? (
             input.platforms.map((platform) => (
               <button
+                key={platform}
                 className={style.button_properties}
                 type="button"
                 onClick={handleDelete}
@@ -261,6 +277,7 @@ export default function CreateVideogame() {
           )}
           <br />
           <br />
+          {/* Buttons for submit and cancel: */}
           <button
             className={style.button}
             type="submit"
@@ -274,7 +291,7 @@ export default function CreateVideogame() {
             Add!
           </button>
           <Link to="/videogames">
-            <button className={style.button}>{`Back`}</button>
+            <button className={style.button}>{`Cancel`}</button>
           </Link>
         </form>
       </div>

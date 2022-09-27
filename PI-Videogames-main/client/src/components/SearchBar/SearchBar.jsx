@@ -1,28 +1,36 @@
+// Import React utilities:
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+// Import actions:
 import { getVideogamesByName } from '../../actions/index.js';
+
+//Import styles and images:
 import style from './SearchBar.module.css';
 import search from '../../assets/search-bar/search.png';
 
+// Component:
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const [game, setGame] = useState('');
+  const [game, setSearch] = useState('');
 
+  //Functions for input and submit:
   function handleInputChange(e) {
     e.preventDefault();
-    setGame(e.target.value);
+    setSearch(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(getVideogamesByName(game));
-    setGame('');
+    setSearch('');
   }
-
+  // Render:
   return (
     <form className={style.search_form} onSubmit={handleSubmit}>
       <input
+        id="searchInput"
         className={style.search_bar}
         type="text"
         placeholder="Search..."
@@ -30,7 +38,6 @@ const SearchBar = () => {
         onChange={handleInputChange}
       />
       <button className={style.button} type="submit" onClick={handleSubmit}>
-        {/* set icon search: */}
         <img className={style.icon} alt="search" src={search} />
       </button>
     </form>

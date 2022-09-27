@@ -1,3 +1,4 @@
+// Import action types variables:
 import {
   GET_VIDEOGAMES,
   GET_VIDEOGAMES_REFRESH,
@@ -9,15 +10,19 @@ import {
   GET_VIDEOGAMES_BY_NAME,
   GET_GENRES,
   CREATE_VIDEOGAME,
+  SET_CURRENT_PAGE,
 } from '../actions/index.js';
 
+// Set initial global state:
 const initialState = {
   videogames: [],
   allVideogames: [],
   videogameDetail: [],
   genres: [],
+  currentPage: 1,
 };
 
+// Create reducer functions:
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_VIDEOGAMES:
@@ -101,6 +106,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         videogames: [...state.videogames, action.payload],
         allVideogames: [...state.allVideogames, action.payload],
+      };
+    case SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
       };
     default:
       return state;

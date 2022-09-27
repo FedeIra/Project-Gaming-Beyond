@@ -30,7 +30,6 @@ module.exports = (sequelize) => {
       },
       platforms: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        // type: DataTypes.STRING,
         allowNull: false,
       },
       image: {

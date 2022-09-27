@@ -1,6 +1,7 @@
 * {
   font-family: 'Roboto', sans-serif;
 }
+
 .landing {
   background-color: #0e0f12;
   background: linear-gradient(180deg, #0e1211 0%, #013c3e 100%);
@@ -45,6 +46,19 @@
   filter: brightness(0.7);
   margin-top: -5px;
   margin-bottom: 0px;
+  animation: show 2s;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .button {

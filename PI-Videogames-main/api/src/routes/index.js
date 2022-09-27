@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { Videogame, Genre } = require('../db.js');
 
+// Import functions from apiFunctions and dbFunctions:
 const {
   getVideogamesApi,
   getVideogamesByNameApi,

@@ -2,7 +2,6 @@
   background-color: #0e0f12;
   background: linear-gradient(180deg, #0e1211 0%, #013c3e 100%);
   background-size: cover;
-  /* height: 130vh; */
   height: 160vh;
   width: 100vw;
   margin-top: -8px;
@@ -13,6 +12,7 @@
 @keyframes show {
   0% {
     opacity: 0;
+    transform: translateY(-200%);
   }
   50% {
     opacity: 0.5;

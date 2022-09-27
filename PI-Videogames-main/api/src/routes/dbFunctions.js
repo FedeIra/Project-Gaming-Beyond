@@ -5,10 +5,10 @@ const { Op } = require('sequelize');
 const getVideogamesDb = async () => {
   const videogames = await Videogame.findAll({
     attributes: {
-      exclude: ['released', /* 'platforms', */ 'description'],
-    },
+      exclude: ['released', 'description'],
+    }, // Include genre.name from model genre
     include: {
-      model: Genre, // to include genre.name from model genre
+      model: Genre,
       attributes: ['name'],
       through: {
         attributes: [],
@@ -23,7 +23,7 @@ const getVideogamesDb = async () => {
       genre: game.genres.map((g) => g.name).join(', '),
       createdByUser: game.createdByUser,
       rating: game.rating,
-      platforms: game.platforms.replace(/["'{}]/g, '').split(','),
+      platforms: game.platforms /* .replace(/["'{}]/g, '').split(',') */,
     };
   });
   return finalVideogames;
@@ -39,9 +39,9 @@ const getVideogamesByIdDb = async (id) => {
     include: {
       model: Genre,
       attributes: ['name'],
-      through: {
-        attributes: [],
-      },
+      // through: {
+      //   attributes: [],
+      // },
     },
   });
   // order attributes as requested on readme and adjust genres to obtain string instead of array with objects:
@@ -52,10 +52,10 @@ const getVideogamesByIdDb = async (id) => {
     description: videogame.description,
     released: videogame.released,
     rating: videogame.rating,
-    platforms: videogame.platforms
-      .replace(/["'{}]/g, '')
-      .split(',')
-      .join(', '),
+    platforms: videogame.platforms,
+    /* .replace(/["'{}]/g, '') */
+    // .split(',')
+    // .join(', '),
   };
   return videogame;
 };

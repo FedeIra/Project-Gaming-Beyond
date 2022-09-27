@@ -10,6 +10,7 @@ export const ORDER_BY_RATING = 'ORDER_BY_RATING';
 export const GET_VIDEOGAMES_BY_NAME = 'GET_VIDEOGAMES_BY_NAME';
 export const CREATE_VIDEOGAME = 'CREATE_VIDEOGAME';
 export const GET_GENRES = 'GET_GENRES';
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 
 // GET ALL VIDEOGAMES
 export const getVideogames = () => {
@@ -47,7 +48,6 @@ export const getVideogamesByName = (name) => {
     let videogames = await axios.get(
       ` http://localhost:3001/videogames?search=${name}`
     );
-    // if videogames is empy return alert "No videogames found", else dispatch action:
     if (videogames.data.length === 0) {
       alert(
         'Apologies! No videogames were found by that name. Please try again.'
@@ -115,5 +115,13 @@ export const createVideogame = (videogame) => {
       type: CREATE_VIDEOGAME,
       payload: newVideogame.data,
     });
+  };
+};
+
+// SET CURRENT PAGE
+export const setCurrentPage = (payload) => {
+  return {
+    type: SET_CURRENT_PAGE,
+    payload,
   };
 };

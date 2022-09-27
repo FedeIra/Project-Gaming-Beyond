@@ -1,37 +1,39 @@
-import React, { useDispatch, useSelector } from 'react-redux';
+// Import react utilities:
+import React, { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { getVideogames, getGenres } from '../../actions/index.js';
 import { Link } from 'react-router-dom';
-import style from './LandingPage.module.css';
-import image1 from '../../assets/landing-page/image1.jpg';
-import image2 from '../../assets/landing-page/image2.jpg';
-import icon1 from '../../assets/landing-page/main-icon.ico';
 
+// Import actions:
+import { getVideogames, getGenres } from '../../actions/index.js';
+
+// Import styles and images:
+import style from './LandingPage.module.css';
+import * as images from '../../assets/landing-page/landing_images.js';
+
+// Component:
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const videogames = useSelector((state) => state.videogames);
-  const genres = useSelector((state) => state.genres);
 
+  // Hook:
   useEffect(() => {
-    if (videogames.length === 0) {
-      dispatch(getVideogames());
-    }
-    if (genres.length === 0) {
-      dispatch(getGenres());
-    }
-  }, [dispatch]);
+    dispatch(getVideogames());
+    dispatch(getGenres());
+  });
 
+  //Render:
   return (
     <div className={style.landing}>
+      {/* Header: */}
       <div className={style.header}>
         <div className={style.logo}>
-          <img className={style.icon} src={icon1} alt="icon" />
+          <img className={style.icon} src={images.icon1} alt="icon" />
           <h2>{`Gaming & Beyond`}</h2>
         </div>
         <Link to="/videogames">
           <button className={style.button}>{'Get started!'}</button>
         </Link>
       </div>
+      {/* Main: */}
       <div className={style.intro}>
         <h1>Let's search for videogames!</h1>
         <h2 className={style.subtitle}>
@@ -41,13 +43,14 @@ const LandingPage = () => {
           <button className={style.button}>{'Get started!'}</button>
         </Link>
       </div>
+      {/* Images and gifs: */}
       <div className={style.landing_images}>
-        <img alt="first" src={image1} />
+        <img alt="first" src={images.image1} />
         <img
           src={'https://media.giphy.com/media/blCBQtdRUklrIp7AX1/giphy.gif'}
           alt="gif"
         />
-        <img alt="second" src={image2} />
+        <img alt="second" src={images.image2} />
 
         <img
           src="https://media.giphy.com/media/abVzXV830cj7YTci7N/giphy.gif"

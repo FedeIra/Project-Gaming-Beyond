@@ -77,6 +77,10 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, #121716 0%, #012b2c 100%);
 }
 
 .select {
@@ -101,13 +105,12 @@ body {
 }
 
 .loader {
-  position: static;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
-  border-radius: 100%;
+  height: 60vh;
 }
 
 .image_loader {
@@ -160,6 +163,26 @@ body {
 }
 
 .footer {
-  background: rgba(0, 0, 0, 0.3);
-  margin: 0 -10px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: rgb(255, 255, 255);
+}
+
+.footer_icons {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.footer_icons:hover {
+  transform: scale(1.3);
+  transition: 0.5s;
+}
+
+.buttons_footer {
+  margin-right: 40px;
+  margin-left: 12%;
 }
