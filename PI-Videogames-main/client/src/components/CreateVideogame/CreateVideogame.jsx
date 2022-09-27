@@ -12,6 +12,7 @@ import {
 
 //Import styles and images:
 import style from './CreateVideogame.module.css';
+import * as images from '../../assets/home/home_images.js';
 import icon1 from '../../assets/landing-page/main-icon.ico';
 
 // Function validations:
@@ -192,7 +193,6 @@ export default function CreateVideogame() {
               value={input.released}
               onChange={handleChange}
             />
-
             <input
               className={style.form_inputs}
               type="number"
@@ -208,15 +208,6 @@ export default function CreateVideogame() {
             )}
             {errors.rating && <p className={style.errors}>{errors.rating}</p>}
           </div>
-          <label>Image: </label>
-          <input
-            className={style.form_inputs}
-            type="text"
-            name="image"
-            placeholder="https://assets1.ignimgs.com/thumbs/userUploaded/2015/8/28/bestsellinggames1280-1440779592068_1280w.jpg"
-            value={input.image}
-            onChange={handleChange}
-          />
           <label>Genres: </label>
           <select
             className={style.form_inputs}
@@ -234,6 +225,7 @@ export default function CreateVideogame() {
           {input.genre.length > 0 &&
             input.genre.map((genre) => (
               <button
+                key={genre}
                 className={style.button_properties}
                 type="button"
                 onClick={handleDelete}
@@ -277,6 +269,26 @@ export default function CreateVideogame() {
           )}
           <br />
           <br />
+          <label>Image: </label>
+          <input
+            className={style.form_inputs}
+            type="text"
+            name="image"
+            placeholder="example: https://assets1.ignimgs.com/thumbs/userUploaded/2015/8/28/bestsellinggames1280-1440779592068_1280w.jpg"
+            value={input.image}
+            onChange={handleChange}
+          />
+          <div>
+            {input.image ? (
+              <img className={style.image} src={input.image} alt="game" />
+            ) : (
+              <img
+                className={style.image}
+                src={images.default_image}
+                alt="game"
+              />
+            )}
+          </div>
           {/* Buttons for submit and cancel: */}
           <button
             className={style.button}

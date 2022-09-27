@@ -92,28 +92,28 @@ router.post('/videogames', async (req, res) => {
     genre,
   } = req.body;
 
-  try {
-    let newVideogame = await Videogame.create({
-      name,
-      description,
-      released,
-      rating,
-      platforms,
-      image,
-      createdByUser,
-    });
+  // try {
+  let newVideogame = await Videogame.create({
+    name,
+    description,
+    released,
+    rating,
+    platforms,
+    image,
+    createdByUser,
+  });
 
-    let genreDB = await Genre.findAll({
-      where: {
-        name: genre,
-      },
-    });
+  let genreDB = await Genre.findAll({
+    where: {
+      name: genre,
+    },
+  });
 
-    newVideogame.addGenres(genreDB);
-    res.send('Videogame created successfully');
-  } catch (error) {
-    res.status(404).send('incorrect data');
-  }
+  newVideogame.addGenres(genreDB);
+  res.send('Videogame created successfully');
+  // } catch (error) {
+  //   res.status(404).send('incorrect data');
+  // }
 });
 
 module.exports = router;

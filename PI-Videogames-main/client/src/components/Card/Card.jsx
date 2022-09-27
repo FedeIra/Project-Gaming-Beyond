@@ -33,7 +33,7 @@ const Card = ({ id, name, image, genre }) => {
         )}
 
         <div className={style.genres}>
-          {genre.split(',').map((genre) => (
+          {genre?.split(',').map((genre) => (
             <span key={genre} className={style.span_genre}>
               {genre}
             </span>

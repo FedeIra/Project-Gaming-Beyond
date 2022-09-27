@@ -70,7 +70,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-right: 330px;
+  margin-right: 430px;
 }
 
 .input_columns {
@@ -124,4 +124,14 @@
 
 .options {
   color: #3e866c;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+  margin: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
