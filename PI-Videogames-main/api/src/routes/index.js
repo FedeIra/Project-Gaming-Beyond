@@ -1,3 +1,4 @@
+// SERVER: http://localhost:3001
 const { Router } = require('express');
 const router = Router();
 const { Videogame, Genre } = require('../db.js');

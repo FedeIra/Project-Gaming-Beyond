@@ -12,6 +12,8 @@ export const CREATE_VIDEOGAME = 'CREATE_VIDEOGAME';
 export const GET_GENRES = 'GET_GENRES';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 
+//ACTIONS -- THUNK
+
 // GET ALL VIDEOGAMES
 export const getVideogames = () => {
   return async function (dispatch) {
