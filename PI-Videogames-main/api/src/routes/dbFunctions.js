@@ -34,7 +34,7 @@ const getVideogamesByIdDb = async (id) => {
   let videogame = await Videogame.findByPk(id, {
     // exclude attributes id and createdByUser:
     attributes: {
-      exclude: ['id', 'createdByUser'],
+      exclude: ['createdByUser'],
     },
     include: {
       model: Genre,
@@ -46,6 +46,7 @@ const getVideogamesByIdDb = async (id) => {
   });
   // order attributes as requested on readme and adjust genres to obtain string instead of array with objects:
   videogame = {
+    id: videogame.id,
     image: videogame.image,
     name: videogame.name,
     genre: videogame.genres.map((g) => g.name).join(', '),

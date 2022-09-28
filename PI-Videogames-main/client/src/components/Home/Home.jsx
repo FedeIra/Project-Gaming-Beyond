@@ -192,7 +192,6 @@ const Home = () => {
         <div>
           <Paginate videogames={videogames.length} paginate={paginate} />
         </div>
-
         {/* Component card: */}
         <div className={style.cards}>
           {currentVideogames.length > 0 ? (
