@@ -89,11 +89,15 @@ export default function CreateVideogame() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(createVideogame(input));
-    setTimeout(() => {
-      dispatch(getVideogames());
-    }, 0);
-    alert('Videogame created successfully!');
+
+    dispatch(createVideogame(input))
+      .then((res) => {
+        alert('Videogame created');
+        dispatch(getVideogames());
+      })
+      .catch((err) => {
+        alert('Apologies! We have encountered an error. Try again.');
+      });
     setInput({
       name: '',
       description: '',
@@ -104,6 +108,24 @@ export default function CreateVideogame() {
       genre: [],
     });
   }
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   dispatch(createVideogame(input));
+  //   setTimeout(() => {
+  //     dispatch(getVideogames());
+  //   }, 0);
+  //   alert('Videogame created successfully!');
+  //   setInput({
+  //     name: '',
+  //     description: '',
+  //     released: new Date().toISOString().slice(0, 10),
+  //     rating: '',
+  //     platforms: [],
+  //     image: '',
+  //     genre: [],
+  //   });
+  // }
 
   // Functions for select and delete genres/platforms:
   function handleSelectGenres(e) {
