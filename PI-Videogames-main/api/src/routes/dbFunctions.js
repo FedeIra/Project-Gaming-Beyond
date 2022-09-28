@@ -23,7 +23,7 @@ const getVideogamesDb = async () => {
       genre: game.genres.map((g) => g.name).join(', '),
       createdByUser: game.createdByUser,
       rating: game.rating,
-      platforms: game.platforms /* .replace(/["'{}]/g, '').split(',') */,
+      platforms: game.platforms,
     };
   });
   return finalVideogames;
@@ -32,19 +32,14 @@ const getVideogamesDb = async () => {
 // Get videogames from db by ID:
 const getVideogamesByIdDb = async (id) => {
   let videogame = await Videogame.findByPk(id, {
-    // exclude attributes id and createdByUser:
     attributes: {
       exclude: ['createdByUser'],
     },
     include: {
       model: Genre,
       attributes: ['name'],
-      // through: {
-      //   attributes: [],
-      // },
     },
   });
-  // order attributes as requested on readme and adjust genres to obtain string instead of array with objects:
   videogame = {
     id: videogame.id,
     image: videogame.image,
@@ -54,9 +49,6 @@ const getVideogamesByIdDb = async (id) => {
     released: videogame.released,
     rating: videogame.rating,
     platforms: videogame.platforms,
-    /* .replace(/["'{}]/g, '') */
-    // .split(',')
-    // .join(', '),
   };
   return videogame;
 };
