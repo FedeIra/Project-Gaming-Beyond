@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // Import actions:
-import { getVideogames, getGenres } from '../../actions/index.js';
+import { getVideogames, getGenres, getPlatforms } from '../../actions/index.js';
 
 // Import styles and images:
 import style from './LandingPage.module.css';
@@ -18,6 +18,7 @@ const LandingPage = () => {
   useEffect(() => {
     dispatch(getVideogames());
     dispatch(getGenres());
+    dispatch(getPlatforms());
   });
 
   //Render:
@@ -40,7 +41,9 @@ const LandingPage = () => {
           Find games any day. Add games any time.
         </h2>
         <Link to="/videogames">
-          <button className={style.button}>{'Get started!'}</button>
+          <button className={`${style.button} ${style.button_middle}`}>
+            {'Get started!'}
+          </button>
         </Link>
       </div>
       {/* Images and gifs: */}

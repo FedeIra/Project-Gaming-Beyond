@@ -1,8 +1,9 @@
 // Import React utilities:
 import React from 'react';
 
-// Import styles:
+// Import styles and images:
 import style from './Paginate.module.css';
+import * as images from '../../assets/paginate/paginate_images.js';
 
 // Component:
 export default function Paginate({ videogames, paginate }) {
@@ -15,6 +16,16 @@ export default function Paginate({ videogames, paginate }) {
   // Render:
   return (
     <nav className={style.paginate}>
+      <button
+        className={style.button_nextOrPrevious}
+        onClick={() => paginate('previous')}
+      >
+        <img
+          className={style.paginate_images}
+          src={images.previous}
+          alt="previous"
+        />
+      </button>
       {pageNumbers?.map((number) => (
         <button
           key={number}
@@ -24,6 +35,12 @@ export default function Paginate({ videogames, paginate }) {
           {number}
         </button>
       ))}
+      <button
+        className={style.button_nextOrPrevious}
+        onClick={() => paginate('next')}
+      >
+        <img className={style.paginate_images} src={images.next} alt="next" />
+      </button>
     </nav>
   );
 }

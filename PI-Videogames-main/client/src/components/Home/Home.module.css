@@ -149,6 +149,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   margin: 26px;
+  /* take 100% of body: */
   animation: show 2s;
 }
 

@@ -11,6 +11,12 @@ import {
   GET_GENRES,
   CREATE_VIDEOGAME,
   SET_CURRENT_PAGE,
+  DELETE_VIDEOGAME,
+  FILTER_BY_PLATFORM,
+  UPDATE_VIDEOGAME,
+  GET_PLATFORMS,
+  ORDER_BY_RELEASED,
+  SORT_FILTER_RECOMMENDED,
 } from '../actions/index.js';
 
 // Set initial global state:
@@ -19,6 +25,7 @@ const initialState = {
   allVideogames: [],
   videogameDetail: [],
   genres: [],
+  platforms: [],
   currentPage: 1,
 };
 
@@ -35,6 +42,13 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         videogames: state.allVideogames,
+      };
+    case SORT_FILTER_RECOMMENDED:
+      return {
+        ...state,
+        videogames: state.videogames
+          .filter((game) => game.rating >= 4)
+          .sort((a, b) => (a.rating > b.rating ? -1 : 1)),
       };
     case GET_VIDEOGAMES_DETAIL:
       return {
@@ -96,10 +110,27 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         videogames: orderByRating,
       };
+    case ORDER_BY_RELEASED:
+      const videogames6 = [...state.allVideogames];
+      const orderByReleased =
+        action.payload === 'All'
+          ? videogames6
+          : action.payload === 'asc'
+          ? videogames6.sort((a, b) => (a.released > b.released ? -1 : 1))
+          : videogames6.sort((a, b) => (a.released > b.released ? 1 : -1));
+      return {
+        ...state,
+        videogames: orderByReleased,
+      };
     case GET_GENRES:
       return {
         ...state,
         genres: action.payload,
+      };
+    case GET_PLATFORMS:
+      return {
+        ...state,
+        platforms: action.payload,
       };
     case CREATE_VIDEOGAME:
       return {
@@ -112,6 +143,40 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         currentPage: action.payload,
       };
+    case DELETE_VIDEOGAME:
+      return {
+        ...state,
+        videogames: state.videogames.filter(
+          (game) => game.id !== action.payload
+        ),
+
+        allVideogames: state.allVideogames.filter(
+          (game) => game.id !== action.payload
+        ),
+      };
+    case FILTER_BY_PLATFORM:
+      const videogames5 = state.allVideogames;
+      const platformFilter =
+        action.payload === 'All'
+          ? videogames5
+          : videogames5.filter((game) =>
+              game.platforms.includes(action.payload)
+            );
+      return {
+        ...state,
+        videogames: platformFilter,
+      };
+    case UPDATE_VIDEOGAME:
+      return {
+        ...state,
+        videogames: state.videogames.map((game) =>
+          game.id === action.payload.id ? action.payload : game
+        ),
+        allVideogames: state.allVideogames.map((game) =>
+          game.id === action.payload.id ? action.payload : game
+        ),
+      };
+
     default:
       return state;
   }

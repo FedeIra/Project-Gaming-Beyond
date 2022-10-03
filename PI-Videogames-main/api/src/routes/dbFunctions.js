@@ -5,8 +5,8 @@ const { Op } = require('sequelize');
 const getVideogamesDb = async () => {
   const videogames = await Videogame.findAll({
     attributes: {
-      exclude: ['released', 'description'],
-    }, // Include genre.name from model genre
+      exclude: ['description'],
+    },
     include: {
       model: Genre,
       attributes: ['name'],
@@ -24,6 +24,7 @@ const getVideogamesDb = async () => {
       createdByUser: game.createdByUser,
       rating: game.rating,
       platforms: game.platforms,
+      released: game.released,
     };
   });
   return finalVideogames;

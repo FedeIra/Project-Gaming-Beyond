@@ -8,7 +8,7 @@ const { Genre } = require('../db');
 const getVideogamesApi = async () => {
   let videoGames = [],
     page = 1;
-  const totalPages = 7; // total of 120 games (20 games per page). For spare space in pagination, so i have room to create more games in the future. //! Set in 2 for developing purposes.
+  const totalPages = 7; // total of 120 games (20 games per page). //! Set in 2 for developing purposes.
 
   while (page < totalPages) {
     const apiResponse = await axios.get(
@@ -26,6 +26,7 @@ const getVideogamesApi = async () => {
       genre: game.genres.map((element) => element.name).join(', '),
       rating: game.rating,
       platforms: game.platforms.map((element) => element.platform.name),
+      released: game.released,
     };
   });
   return videoGamesApi;
@@ -65,9 +66,11 @@ const getVideogamesByIdApi = async (id) => {
       .replace(/&#39;/g, ''),
     released: apiResponse.data.released.replace(/-/g, '/'),
     rating: apiResponse.data.rating,
+    reviews_count: apiResponse.data.reviews_count, //TODO: CHEQUEAR
     platforms: apiResponse.data.platforms
       .map((element) => element.platform.name)
       .join(`, `),
+    stores: apiResponse.data.stores.map((stores) => stores.store.domain),
   };
   return videoGame;
 };
@@ -89,9 +92,23 @@ const getGenresApi = async () => {
   });
 };
 
+// Get all platforms from API and save in DB:
+const getPlatformsApi = async () => {
+  const apiResponse = await axios.get(
+    `https://api.rawg.io/api/platforms?key=${YOUR_API_KEY}`
+  );
+
+  const videoGamesPlatforms = apiResponse.data.results.map(
+    (platform) => platform.name
+  );
+
+  return videoGamesPlatforms;
+};
+
 module.exports = {
   getVideogamesApi,
   getVideogamesByNameApi,
   getVideogamesByIdApi,
   getGenresApi,
+  getPlatformsApi,
 };

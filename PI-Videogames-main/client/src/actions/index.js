@@ -11,6 +11,12 @@ export const GET_VIDEOGAMES_BY_NAME = 'GET_VIDEOGAMES_BY_NAME';
 export const CREATE_VIDEOGAME = 'CREATE_VIDEOGAME';
 export const GET_GENRES = 'GET_GENRES';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+export const DELETE_VIDEOGAME = 'DELETE_VIDEOGAME';
+export const FILTER_BY_PLATFORM = 'FILTER_BY_PLATFORM';
+export const UPDATE_VIDEOGAME = 'UPDATE_VIDEOGAME';
+export const GET_PLATFORMS = 'GET_PLATFORMS';
+export const ORDER_BY_RELEASED = 'ORDER_BY_RELEASED';
+export const SORT_FILTER_RECOMMENDED = 'SORT_FILTER_RECOMMENDED';
 
 //ACTIONS -- THUNK
 
@@ -33,7 +39,16 @@ export const getVideogamesRefresh = (payload) => {
   };
 };
 
+// GET VIDEOGAMES RECOMMENDED:
+export const getVideogamesRecommended = (payload) => {
+  return {
+    type: SORT_FILTER_RECOMMENDED,
+    payload,
+  };
+};
+
 // GET VIDEOGAME BY ID:
+
 export const getVideogamesDetail = (id) => {
   return async function (dispatch) {
     let videogame = await axios.get(`http://localhost:3001/videogames/${id}`);
@@ -71,6 +86,14 @@ export const filterVideogamesByGenre = (genre) => {
   };
 };
 
+// GET VIDEOGAMES BY PLATFORM:
+export const filterPlatforms = (platform) => {
+  return {
+    type: FILTER_BY_PLATFORM,
+    payload: platform,
+  };
+};
+
 // ORDER VIDEOGAMES BY A/Z:
 export const orderVideogamesByAZ = (payload) => {
   return {
@@ -83,6 +106,14 @@ export const orderVideogamesByAZ = (payload) => {
 export const orderVideogamesByRating = (payload) => {
   return {
     type: ORDER_BY_RATING,
+    payload,
+  };
+};
+
+// ORDER VIDEOGAMES BY RELEASED:
+export const orderVideogamesByReleased = (payload) => {
+  return {
+    type: ORDER_BY_RELEASED,
     payload,
   };
 };
@@ -106,6 +137,19 @@ export const getGenres = () => {
   };
 };
 
+// GET PLATFORMS:
+export const getPlatforms = () => {
+  return async function (dispatch) {
+    let platforms = await axios.get(
+      'http://localhost:3001/videogames/platforms'
+    );
+    return dispatch({
+      type: GET_PLATFORMS,
+      payload: platforms.data,
+    });
+  };
+};
+
 // POST CREATE VIDEOGAME
 export const createVideogame = (videogame) => {
   return async function (dispatch) {
@@ -125,5 +169,32 @@ export const setCurrentPage = (payload) => {
   return {
     type: SET_CURRENT_PAGE,
     payload,
+  };
+};
+
+// DELETE VIDEOGAMES
+export const deleteVideogame = (id) => {
+  return async function (dispatch) {
+    let videogame = await axios.delete(
+      `http://localhost:3001/videogames/${id}`
+    );
+    return dispatch({
+      type: DELETE_VIDEOGAME,
+      payload: videogame.data,
+    });
+  };
+};
+
+// UPDATE VIDEOGAME:
+export const editVideogame = (videogame) => {
+  return async function (dispatch) {
+    let updatedVideogame = await axios.put(
+      `http://localhost:3001/videogames/edit`,
+      videogame
+    );
+    return dispatch({
+      type: UPDATE_VIDEOGAME,
+      payload: updatedVideogame.data,
+    });
   };
 };

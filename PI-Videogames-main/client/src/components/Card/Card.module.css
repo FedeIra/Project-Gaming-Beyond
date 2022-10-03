@@ -41,13 +41,17 @@
   display: flex;
   flex-direction: column;
   right: 0;
+  align-items: center;
 }
 
-.span_genre {
+.button_genre {
   color: #f1f1f1;
   padding: 6px;
   font-size: 13px;
   background-color: rgba(47, 93, 80, 0.7);
-  text-align: right;
-  border-radius: 8px;
+  text-align: center;
+  border-radius: 100%;
+  border: none;
+  margin: 1px;
+  width: fit-content;
 }

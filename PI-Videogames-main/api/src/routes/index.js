@@ -9,6 +9,7 @@ const {
   getVideogamesByNameApi,
   getVideogamesByIdApi,
   getGenresApi,
+  getPlatformsApi, // TODO: CHEQUEAR
 } = require('./apiFunctions');
 
 const {
@@ -29,6 +30,16 @@ router.get('/videogames/genres', async (req, res) => {
     } catch (error) {
       return res.status(404).send(error);
     }
+  }
+});
+
+//GET PLATFORMS FROM API:
+router.get('/videogames/platforms', async (req, res) => {
+  try {
+    const platforms = await getPlatformsApi();
+    return res.json(platforms);
+  } catch (error) {
+    return res.status(404).send(error);
   }
 });
 
@@ -93,28 +104,87 @@ router.post('/videogames', async (req, res) => {
     genre,
   } = req.body;
 
-  // try {
-  let newVideogame = await Videogame.create({
-    name,
-    description,
-    released,
-    rating,
-    platforms,
-    image,
-    createdByUser,
-  });
+  try {
+    let newVideogame = await Videogame.create({
+      name,
+      description,
+      released,
+      rating,
+      platforms,
+      image,
+      createdByUser,
+    });
 
-  let genreDB = await Genre.findAll({
-    where: {
-      name: genre,
-    },
-  });
+    let genreDB = await Genre.findAll({
+      where: {
+        name: genre,
+      },
+    });
 
-  newVideogame.addGenres(genreDB);
-  res.send('Videogame created successfully');
-  // } catch (error) {
-  //   res.status(404).send('incorrect data');
-  // }
+    newVideogame.addGenres(genreDB);
+    res.send(newVideogame);
+  } catch (error) {
+    res.status(404).send('incorrect data');
+  }
+});
+
+// DELETE VIDEOGAME:
+router.delete('/videogames/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await Videogame.destroy({ where: { id: id } });
+    res.send(id);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+//TODO: CHEQUEAR
+// UPDATE VIDEOGAME:
+// router.put('/videogames/edit/:id', updateGameDB);
+
+router.put('/videogames/edit', async (req, res) => {
+  try {
+    const { id, name, description, released, rating, platforms, genre, image } =
+      req.body;
+
+    await Videogame.update(
+      {
+        name,
+        description,
+        released,
+        rating,
+        platforms,
+        image,
+      },
+      {
+        where: { id: id },
+      }
+    );
+
+    if (genre) {
+      const game = await Videogame.findByPk(id);
+      const genresMatched = await Genre.findAll({
+        where: {
+          name: genre,
+        },
+      });
+      await game.setGenres(genresMatched);
+    }
+    const videogame = await Videogame.findByPk(id, {
+      include: {
+        model: Genre,
+        attributes: ['name'],
+        through: {
+          attributes: [],
+        },
+      },
+    });
+    res.json(videogame);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 module.exports = router;

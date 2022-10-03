@@ -42,7 +42,6 @@
 .landing_images img {
   width: 25vw;
   height: 25vh;
-  border-radius: 2%;
   filter: brightness(0.7);
   margin-top: -5px;
   margin-bottom: 0px;
@@ -71,6 +70,11 @@
   border-radius: 10px;
   border: none;
   margin-bottom: 20%;
+}
+
+.button_middle {
+  margin-top: 15%;
+  margin-bottom: 35%;
 }
 
 .button:hover {

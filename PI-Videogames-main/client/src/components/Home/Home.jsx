@@ -14,6 +14,10 @@ import {
   orderVideogamesByRating,
   getGenres,
   setCurrentPage,
+  filterPlatforms,
+  getPlatforms,
+  orderVideogamesByReleased,
+  getVideogamesRecommended,
 } from '../../actions/index.js';
 
 //Import components:
@@ -33,6 +37,7 @@ const Home = () => {
   // Global states:
   const videogames = useSelector((state) => state.videogames);
   const genres = useSelector((state) => state.genres);
+  const platforms = useSelector((state) => state.platforms);
   const currentPage = useSelector((state) => state.currentPage);
 
   useEffect(() => {
@@ -41,6 +46,9 @@ const Home = () => {
     }
     if (genres.length === 0) {
       dispatch(getGenres());
+    }
+    if (platforms.length === 0) {
+      dispatch(getPlatforms());
     }
   }, []);
 
@@ -53,7 +61,15 @@ const Home = () => {
   );
 
   const paginate = (pageNumber) => {
-    dispatch(setCurrentPage(pageNumber));
+    if (currentVideogames < 15) {
+      alert('No more pages.');
+    } else if (pageNumber === 'previous') {
+      dispatch(setCurrentPage(currentPage - 1));
+    } else if (pageNumber === 'next') {
+      dispatch(setCurrentPage(currentPage + 1));
+    } else {
+      dispatch(setCurrentPage(pageNumber));
+    }
   };
 
   // Functions for filter and sorts:
@@ -67,14 +83,30 @@ const Home = () => {
     dispatch(setCurrentPage(1));
   }
 
+  function handleOrderReleased(e) {
+    dispatch(orderVideogamesByReleased(e.target.value));
+    dispatch(setCurrentPage(1));
+  }
+
   function handleFilterGenre(e) {
     dispatch(setCurrentPage(1));
     dispatch(filterVideogamesByGenre(e.target.value));
   }
 
+  function handleFilterPlatforms(e) {
+    dispatch(setCurrentPage(1));
+    dispatch(filterPlatforms(e.target.value));
+  }
+
   function handleFilterCreation(e) {
     dispatch(setCurrentPage(1));
     dispatch(filterVideogamesAPIorDB(e.target.value));
+  }
+
+  // Function for recommendations:
+  function handleClickRecommended(e) {
+    dispatch(setCurrentPage(1));
+    dispatch(getVideogamesRecommended());
   }
 
   // Function for refresh:
@@ -83,8 +115,10 @@ const Home = () => {
     dispatch(getVideogamesRefresh());
     document.getElementById('sortAZ').value = 'All';
     document.getElementById('sortRating').value = 'All';
+    document.getElementById('sortReleased').value = 'All';
     document.getElementById('filterGenre').value = 'All';
     document.getElementById('filterCreation').value = 'All';
+    document.getElementById('filterPlatform').value = 'All';
   }
 
   // Render:
@@ -139,6 +173,24 @@ const Home = () => {
             Lower-Higher
           </option>
         </select>
+        {/* Sort by rating: */}
+        <select
+          id="sortReleased"
+          className={style.select}
+          onChange={(e) => {
+            handleOrderReleased(e);
+          }}
+        >
+          <option className={style.select_options} value="All">
+            Released Sort
+          </option>
+          <option className={style.select_options} value="asc">
+            Newer-Older
+          </option>
+          <option className={style.select_options} value="desc">
+            Older-Newer
+          </option>
+        </select>
         {/* Filter by genres: */}
         <select
           id="filterGenre"
@@ -156,7 +208,28 @@ const Home = () => {
             </option>
           ))}
         </select>
-        {/* Filter by created or existing: */}
+        {/* Filter by platforms: */}
+        <select
+          id="filterPlatform"
+          className={style.select}
+          onChange={(e) => {
+            handleFilterPlatforms(e);
+          }}
+        >
+          <option className={style.select_options} value="All">
+            Filter by Platform
+          </option>
+          {platforms.map((platform) => (
+            <option
+              key={platform}
+              className={style.select_options}
+              value={platform}
+            >
+              {platform}
+            </option>
+          ))}
+        </select>
+        ;{/* Filter by created or existing: */}
         <select
           id="filterCreation"
           className={style.select}
@@ -174,17 +247,23 @@ const Home = () => {
             Existing
           </option>
         </select>
+        {/* TODO: Add button for recommended: */}
+        <button
+          className={`${style.button} ${style.button_refresh}`}
+          onClick={(e) => {
+            handleClickRecommended(e);
+          }}
+        >
+          Recommended
+        </button>
+        {/* TODO: Add button for recommended: */}
         <button
           className={`${style.button} ${style.button_refresh}`}
           onClick={(e) => {
             handleClick(e);
           }}
         >
-          <img
-            className={style.image_refresh}
-            src={images.refresh}
-            alt="refresh"
-          />
+          Refresh filters
         </button>
       </div>
       <div>

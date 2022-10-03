@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 // Import actions:
 import {
-  createVideogame,
   getGenres,
-  getVideogames,
   getPlatforms,
+  getVideogames,
+  editVideogame,
 } from '../../actions/index.js';
 
 //Import styles and images:
-import style from './CreateVideogame.module.css';
+import style from './EditVideogame.module.css';
 import * as images from '../../assets/home/home_images.js';
 import icon1 from '../../assets/landing-page/main-icon.ico';
 
@@ -35,13 +35,14 @@ function validations(input) {
 }
 
 // Component:
-export default function CreateVideogame() {
+export default function EditVideogame() {
   const dispatch = useDispatch();
 
   // Global states:
   const videogames = useSelector((state) => state.videogames);
   const genres = useSelector((state) => state.genres);
   const platforms = useSelector((state) => state.platforms);
+  const videogame = useSelector((state) => state.videogameDetail);
 
   useEffect(() => {
     if (genres.length === 0) {
@@ -59,13 +60,14 @@ export default function CreateVideogame() {
   const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
-    name: '',
-    description: '',
-    released: new Date().toISOString().slice(0, 10),
-    rating: '',
-    platforms: [],
-    image: '',
-    genre: [],
+    id: videogame.id,
+    name: videogame.name,
+    description: videogame.description,
+    released: new Date(videogame.released).toISOString().slice(0, 10),
+    rating: videogame.rating,
+    platforms: videogame.platforms,
+    image: videogame.image,
+    genre: videogame.genre.split(', '),
   });
 
   // Functions for input, errors and submit:
@@ -82,29 +84,21 @@ export default function CreateVideogame() {
     );
   }
 
+  // Function to edit:
   function handleSubmit(e) {
     e.preventDefault();
     if (
       window.confirm(
-        `Are you sure you want to create the videogame ${input.name}?`
+        `Are you sure you want to edit the videogame ${videogame.name}?`
       )
     ) {
-      dispatch(createVideogame(input))
+      dispatch(editVideogame(input))
         .then((res) => {
-          // alert('Videogame created');
+          alert('Videogame edited successfully!');
         })
         .catch((err) => {
           alert('Apologies! We have encountered an error. Try again.');
         });
-      setInput({
-        name: '',
-        description: '',
-        released: new Date().toISOString().slice(0, 10),
-        rating: '',
-        platforms: [],
-        image: '',
-        genre: [],
-      });
     }
   }
 
@@ -157,7 +151,7 @@ export default function CreateVideogame() {
       {/* Form: */}
       <div className={style.form_general}>
         <div className={style.header}>
-          <h1>Add a new game</h1>
+          <h1>Edit your game</h1>
         </div>
         <form onSubmit={handleSubmit}>
           <label>Name*: </label>
@@ -254,7 +248,7 @@ export default function CreateVideogame() {
               </option>
             ))}
           </select>
-
+          {/* TODO:CHEQUEAR --------------*/}
           {input.platforms.length > 0 ? (
             input.platforms.map((platform) => (
               <button
@@ -277,7 +271,7 @@ export default function CreateVideogame() {
             className={style.form_inputs}
             type="text"
             name="image"
-            placeholder="example: https://assets1.ignimgs.com/thumbs/userUploaded/2015/8/28/bestsellinggames1280-1440779592068_1280w.jpg"
+            placeholder={input.image}
             value={input.image}
             onChange={handleChange}
           />
@@ -303,7 +297,7 @@ export default function CreateVideogame() {
               input.platforms.length === 0
             }
           >
-            Add!
+            Edit!
           </button>
           <Link to="/videogames">
             <button className={style.button}>{`Cancel`}</button>
