@@ -307,3 +307,28 @@ export default function EditVideogame() {
     </div>
   );
 }
+
+// function App() {
+
+// const search = 'harry+potter+trailer'
+
+// const getApiInfo = async () => {
+//     const dataApi = await axios.get(https://www.googleapis.com/youtube/v3/search?key=AIzaSyDgLczZQJR-R60Wh1kAXHDZbO2r86iR07c&type=video&part=snippet&maxResults=1&q=$%7Bsearch%7D)
+//     const id = dataApi.data.items[0].id.videoId
+//     console.log(id)
+// }
+
+//   return (
+//     <div>
+//       <button onClick={getApiInfo}></button>
+//         <iframe width="420" height="315"
+//             src="https://www.youtube.com/embed/fFGS4zZWGoA"                   title="YouTube video player"
+//             frameBorder="0"
+//             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+//             allowFullScreen>
+//         </iframe>
+//     </div>
+//   );
+// }
+
+// export default App;
