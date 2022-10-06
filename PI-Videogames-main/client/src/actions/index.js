@@ -23,7 +23,7 @@ export const SORT_FILTER_RECOMMENDED = 'SORT_FILTER_RECOMMENDED';
 // GET ALL VIDEOGAMES
 export const getVideogames = () => {
   return async function (dispatch) {
-    let videogames = await axios.get('http://localhost:3001/videogames');
+    let videogames = await axios.get('/videogames');
     return dispatch({
       type: GET_VIDEOGAMES,
       payload: videogames.data,
@@ -51,7 +51,7 @@ export const getVideogamesRecommended = (payload) => {
 
 export const getVideogamesDetail = (id) => {
   return async function (dispatch) {
-    let videogame = await axios.get(`http://localhost:3001/videogames/${id}`);
+    let videogame = await axios.get(`/videogames/${id}`);
     return dispatch({
       type: GET_VIDEOGAMES_DETAIL,
       payload: videogame.data,
@@ -62,9 +62,7 @@ export const getVideogamesDetail = (id) => {
 // GET  VIDEOGAMES BY NAME
 export const getVideogamesByName = (name) => {
   return async function (dispatch) {
-    let videogames = await axios.get(
-      ` http://localhost:3001/videogames?search=${name}`
-    );
+    let videogames = await axios.get(`/videogames?search=${name}`);
     if (videogames.data.length === 0) {
       alert(
         'Apologies! No videogames were found by that name. Please try again.'
@@ -129,7 +127,7 @@ export const filterVideogamesAPIorDB = (payload) => {
 // GET GENRES:
 export const getGenres = () => {
   return async function (dispatch) {
-    let genres = await axios.get('http://localhost:3001/videogames/genres');
+    let genres = await axios.get('/videogames/genres');
     return dispatch({
       type: GET_GENRES,
       payload: genres.data,
@@ -140,9 +138,7 @@ export const getGenres = () => {
 // GET PLATFORMS:
 export const getPlatforms = () => {
   return async function (dispatch) {
-    let platforms = await axios.get(
-      'http://localhost:3001/videogames/platforms'
-    );
+    let platforms = await axios.get('/videogames/platforms');
     return dispatch({
       type: GET_PLATFORMS,
       payload: platforms.data,
@@ -153,10 +149,7 @@ export const getPlatforms = () => {
 // POST CREATE VIDEOGAME
 export const createVideogame = (videogame) => {
   return async function (dispatch) {
-    let newVideogame = await axios.post(
-      'http://localhost:3001/videogames',
-      videogame
-    );
+    let newVideogame = await axios.post('/videogames', videogame);
     return dispatch({
       type: CREATE_VIDEOGAME,
       payload: newVideogame.data,
@@ -175,9 +168,7 @@ export const setCurrentPage = (payload) => {
 // DELETE VIDEOGAMES
 export const deleteVideogame = (id) => {
   return async function (dispatch) {
-    let videogame = await axios.delete(
-      `http://localhost:3001/videogames/${id}`
-    );
+    let videogame = await axios.delete(`/videogames/${id}`);
     return dispatch({
       type: DELETE_VIDEOGAME,
       payload: videogame.data,
@@ -188,13 +179,15 @@ export const deleteVideogame = (id) => {
 // UPDATE VIDEOGAME:
 export const editVideogame = (videogame) => {
   return async function (dispatch) {
-    let updatedVideogame = await axios.put(
-      `http://localhost:3001/videogames/edit`,
-      videogame
-    );
+    let updatedVideogame = await axios.put(`/videogames/edit`, videogame);
     return dispatch({
       type: UPDATE_VIDEOGAME,
       payload: updatedVideogame.data,
     });
   };
 };
+
+//TODO: DEPLOY
+/* Delete the entire rout.
+Before: http://localhost:3001/videogames/edit
+Now: /videogames/edit  */

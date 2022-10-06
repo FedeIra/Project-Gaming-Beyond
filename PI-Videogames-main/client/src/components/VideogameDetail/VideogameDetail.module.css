@@ -210,3 +210,60 @@
   transform: scale(1.1);
   transition: 0.5s;
 }
+
+/* mae component responsive from 1291 to 770: */
+@media (max-width: 1291px) and (min-width: 770px) {
+  .first_container {
+    width: 90vw;
+  }
+  .second_container {
+    flex-direction: column;
+  }
+  .left_column {
+    margin: 0;
+  }
+  .image {
+    width: 100%;
+    height: 100%;
+  }
+  .gameplayAndBuy {
+    margin-top: 0;
+  }
+  .button_gameplay {
+    margin-top: 1%;
+  }
+  .buy {
+    margin-top: 1%;
+  }
+  .card {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .first_container {
+    width: 90vw;
+  }
+  .second_container {
+    flex-direction: column;
+  }
+  .left_column {
+    margin: 0;
+  }
+  .image {
+    width: 100%;
+    height: 100%;
+  }
+  .gameplayAndBuy {
+    margin-top: 0;
+  }
+  .button_gameplay {
+    margin-top: 1%;
+  }
+  .buy {
+    margin-top: 1%;
+  }
+  .card {
+    margin-top: 0;
+  }
+}

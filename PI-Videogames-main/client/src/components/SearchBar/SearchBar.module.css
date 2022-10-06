@@ -41,3 +41,22 @@
   height: 23px;
   margin: 9px 5px 5px;
 }
+
+@media screen and (max-width: 768px) {
+  .search_form {
+    margin-left: 0;
+  }
+  .search_bar {
+    width: 250px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1860px) {
+  .search_form {
+    margin-left: 30px;
+    width: 250px;
+  }
+  .search_bar {
+    width: 250px;
+  }
+}

@@ -247,7 +247,7 @@ const Home = () => {
             Existing
           </option>
         </select>
-        {/* TODO: Add button for recommended: */}
+        {/* Filter and sort by recommended */}
         <button
           className={`${style.button} ${style.button_refresh}`}
           onClick={(e) => {
@@ -256,7 +256,6 @@ const Home = () => {
         >
           Recommended
         </button>
-        {/* TODO: Add button for recommended: */}
         <button
           className={`${style.button} ${style.button_refresh}`}
           onClick={(e) => {
