@@ -20,16 +20,16 @@ import icon1 from '../../assets/landing-page/main-icon.ico';
 function validations(input) {
   let errors = {};
   if (!input.name) {
-    errors.name = 'Name is required';
+    errors.name = 'Name is required.';
   }
   if (!input.description) {
-    errors.description = 'Description is required';
+    errors.description = 'Description is required.';
   }
   if (input.rating > 5 || input.rating < 0) {
-    errors.rating = 'Rating must be between 0 and 5';
+    errors.rating = 'Rating must be between 0 and 5.';
   }
   if (input.released > new Date().toISOString().slice(0, 10)) {
-    errors.released = 'You selected an incorrect date';
+    errors.released = 'You selected an incorrect date.';
   }
   return errors;
 }

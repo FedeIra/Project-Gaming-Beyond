@@ -91,3 +91,13 @@
   border: #3e866c 1px solid;
   margin: 10px;
 }
+
+@media screen and (max-width: 768px) {
+  .landing_images img {
+    width: 25vw;
+    height: 25vh;
+  }
+  .button_middle {
+    margin-bottom: 30%;
+  }
+}

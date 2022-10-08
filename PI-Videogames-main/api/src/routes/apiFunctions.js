@@ -8,7 +8,7 @@ const { Genre } = require('../db');
 const getVideogamesApi = async () => {
   let videoGames = [],
     page = 1;
-  const totalPages = 10; // (20 games per page). //! Set in 2 for developing purposes.
+  const totalPages = 7; // (20 games per page). //! Set in 2 for developing purposes.
 
   while (page < totalPages) {
     const apiResponse = await axios.get(

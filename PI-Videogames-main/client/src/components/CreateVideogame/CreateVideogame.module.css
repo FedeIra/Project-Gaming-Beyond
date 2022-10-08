@@ -70,7 +70,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-right: 430px;
+  margin-right: 44%;
 }
 
 .input_columns {
@@ -134,4 +134,25 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .form_general {
+    width: 90vw;
+    padding: 20px;
+    padding-bottom: 140px;
+    padding-top: 10px;
+  }
+
+  .label_columns {
+    margin-right: 170px;
+  }
+
+  .errorsColumns {
+    margin-right: 0px;
+  }
+
+  .button {
+    margin: 20px 0px 18px 0;
+  }
 }

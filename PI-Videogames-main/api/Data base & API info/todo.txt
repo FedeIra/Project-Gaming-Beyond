@@ -1,0 +1,6 @@
+1) que en la description tenga 11 palabras por rengón y un read more... y read less...
+2) en lugar de alerts que salgan divs
+3) cuando entras te aparezca q está clickeado el button 1
+4) al image subirle un + para ver como subirlo. PAra subir imagenes: https://imageshack.com/
+5) mostrar verde o con tick a los select options que estén seleccionados
+6) Renderizar video de gameplay.

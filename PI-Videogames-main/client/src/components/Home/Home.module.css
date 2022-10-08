@@ -130,6 +130,7 @@ body {
   .select {
     margin: 5px 0px 0px 3px;
     padding: 8px;
+    width: 95%;
   }
 }
 
