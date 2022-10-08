@@ -4,3 +4,6 @@
 4) al image subirle un + para ver como subirlo. PAra subir imagenes: https://imageshack.com/
 5) mostrar verde o con tick a los select options que estén seleccionados
 6) Renderizar video de gameplay.
+7) q te lleve al store al juego para poder poner buy
+8) cuando seleccionas un genero al crear o editar, si lo sacas, no lo podes volver a seleccionar salvo q selecciones otro. Corregir
+9) corregir el screen de cuando entras por celular se ve corrido para la izquierda

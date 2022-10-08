@@ -47,7 +47,8 @@
     margin-left: 0;
   }
   .search_bar {
-    width: 395px;
+    width: 290px;
+    margin-left: 3px;
   }
 }
 

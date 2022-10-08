@@ -31,7 +31,7 @@ const LandingPage = () => {
           <h2>{`Gaming & Beyond`}</h2>
         </div>
         <Link to="/videogames">
-          <button className={style.button}>{'Get started!'}</button>
+          <button className={style.button}>{'Home'}</button>
         </Link>
       </div>
       {/* Main: */}

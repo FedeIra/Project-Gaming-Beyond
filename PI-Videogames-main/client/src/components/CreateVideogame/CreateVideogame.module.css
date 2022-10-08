@@ -145,7 +145,7 @@
   }
 
   .label_columns {
-    margin-right: 170px;
+    margin-right: 120px;
   }
 
   .errorsColumns {
@@ -153,6 +153,6 @@
   }
 
   .button {
-    margin: 20px 0px 18px 0;
+    margin: 20px 20px 18px 0;
   }
 }

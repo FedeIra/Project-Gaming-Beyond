@@ -229,7 +229,7 @@ const Home = () => {
             </option>
           ))}
         </select>
-        ;{/* Filter by created or existing: */}
+        {/* Filter by created or existing: */}
         <select
           id="filterCreation"
           className={style.select}
@@ -248,22 +248,24 @@ const Home = () => {
           </option>
         </select>
         {/* Filter and sort by recommended */}
-        <button
-          className={`${style.button} ${style.button_refresh}`}
-          onClick={(e) => {
-            handleClickRecommended(e);
-          }}
-        >
-          Recommended
-        </button>
-        <button
-          className={`${style.button} ${style.button_refresh}`}
-          onClick={(e) => {
-            handleClick(e);
-          }}
-        >
-          Refresh filters
-        </button>
+        <div className={style.filter_buttons}>
+          <button
+            className={`${style.button} ${style.button_refresh}`}
+            onClick={(e) => {
+              handleClickRecommended(e);
+            }}
+          >
+            Recommended
+          </button>
+          <button
+            className={`${style.button} ${style.button_refresh}`}
+            onClick={(e) => {
+              handleClick(e);
+            }}
+          >
+            Refresh filters
+          </button>
+        </div>
       </div>
       <div>
         {/* Component Paginate: */}
