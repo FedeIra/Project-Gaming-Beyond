@@ -24,7 +24,7 @@ It was built with the following tools:
 • Heroku; and
 • Vercel.
 
-Deployed on: https://gamingweb.vercel.app/
+Link: https://gamingweb.vercel.app/
 
 Hope you enjoy it! Below some pics.
 
