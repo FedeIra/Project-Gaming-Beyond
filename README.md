@@ -1,4 +1,4 @@
-# VideoGames-Web: Project for SoyHenry
+# VideoGames-Web: Individual Project for SoyHenry
 
 Gaming & Beyond is an SPA (Single Page Application) website using an API with videogames data and my own database.
 
