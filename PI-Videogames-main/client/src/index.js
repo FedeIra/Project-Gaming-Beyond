@@ -17,8 +17,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 axios.defaults.baseURL =
-  'http://localhost:3001' ||
-  `https://videogames-web-production.up.railway.app/`;
+  `https://videogames-web-production.up.railway.app/` ||
+  'http://localhost:3001';
 // TODO: deploy (up)
 
 ReactDOM.render(
