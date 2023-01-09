@@ -91,7 +91,7 @@ export default function CreateVideogame() {
     ) {
       dispatch(createVideogame(input))
         .then((res) => {
-          // alert('Videogame created');
+          alert('Videogame created');
         })
         .catch((err) => {
           alert('Apologies! We have encountered an error. Try again.');
